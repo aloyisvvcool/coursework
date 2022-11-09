@@ -1,15 +1,17 @@
 from cryptography.fernet import Fernet
 
-with open('fernk.txt','r') as f:
-    key = bytes(str(f.readlines()),'utf-8')
-with open('msg.txt','r') as f:
-    msg = bytes(str(f.readlines()),'utf-8')
-fernet = Fernet(key)
-# decrypt the encrypted string with the
-# Fernet instance of the key,
-# that was used for encrypting the string
-# encoded byte string is returned by decrypt method,
-# so decode it to string with decode methods
-decMessage = fernet.decrypt(msg).decode()
+def tobytes(x):
+    return bytes(x,'utf-8')
+
+texts = []
+with open('textinfo.txt','r') as f:
+    [texts.append(line.strip()) for line in f.readlines()]
+print(texts)
+
+key = tobytes(texts[0])
+msg = tobytes(texts[1])
+fernet = Fernet(key) #casts key to needed type
+
+text = fernet.decrypt(msg).decode() # decodes message into usable string
  
-print("decrypted string: ", decMessage)
+print("decrypted string: ", text)

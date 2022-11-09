@@ -16,9 +16,7 @@ encMessage = fernet.encrypt(message.encode()) #encode
 print("original string: ", message)
 print("encrypted string: ", encMessage)
  
-with open('fernk.txt','w') as f: #create txt file if it doesnt exist, and write to key
-    f.write(str(key)[2:-1])
+with open('textinfo.txt','w') as f: #create txt file if it doesnt exist, and write to key
+    f.write(str(key)[2:-1] + '\n')
+    f.write(str(encMessage)[2:-1])
     f.close()
-with open('msg.txt','w') as g: #create txt file if it doesnt exist, and write to key
-    g.write(str(encMessage)[2:-1])
-    g.close()

@@ -1,7 +1,7 @@
 from cryptography.fernet import Fernet
  
 # we will be encrypting the below string.
-message = "pissandcum"
+message = "bruhv"
 
 key = Fernet.generate_key() #key generation, generates new keys each time
 fernet = Fernet(key) #cast key to fernet tye

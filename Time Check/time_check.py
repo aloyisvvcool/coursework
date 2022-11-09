@@ -13,7 +13,9 @@ if Dcheck[1] == "/":
     print(Dcheck)
 check = Dcheck +" "+ Tcheck
 if current != check:
-    while int(time.strftime("%S")) != 0: time.sleep(1)
+    while int(time.strftime("%S")) != 0:
+        print("pew")
+        time.sleep(1)
 while current != check:
     D = time.strftime("%D")
     T = time.strftime("%H:%M")
@@ -22,5 +24,6 @@ while current != check:
     current = str("/".join(Darr1)+" "+T)
     print(current)
     print(check)
+    if current == check: break
     time.sleep(60)
 print("Uploading now")

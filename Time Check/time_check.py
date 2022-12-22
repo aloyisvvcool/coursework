@@ -10,6 +10,9 @@ check = Dcheck +" "+ Tcheck
 if current != check:
     while int(time.strftime("%S")) != 0:
         time.sleep(1)
+if current != check:
+    while int(time.strftime("%M"))%5 != 0 :
+        time.sleep(60)
 while current != check:
     D = time.strftime("%D")
     T = time.strftime("%H:%M")
@@ -17,5 +20,5 @@ while current != check:
     Darr1 = [Darr0[1], Darr0[0], Darr0[2]]
     current = str("/".join(Darr1)+" "+T)
     if current == check: break
-    time.sleep(60)
+    time.sleep(300)
 print("Uploading now")

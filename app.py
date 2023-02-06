@@ -2,7 +2,16 @@ import tkinter
 import customtkinter
 from datetime import datetime
 from tkinter import filedialog as fd
-
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+import pyautogui
+import time
+EMAIL = 'plsgivea1@gmail.com'
+TT_PASSWORD = "compa1orcry!"
+file_path = None #initialised just so tiktok posting can run, should be changed later on
 customtkinter.set_appearance_mode("dark")  # Modes: "System" (standard), "Dark", "Light"
 customtkinter.set_default_color_theme("blue")  # Themes: "blue" (standard), "green", "dark-blue"
 
@@ -112,7 +121,54 @@ def post():
     if twittercb.get(): #twitter upload code here
         pass
     if tiktokcb.get(): #tiktok upload code here
-        pass
+        driver = webdriver.Edge()
+
+        # Navigate to TikTok website
+        driver.get("https://www.tiktok.com/")
+        time.sleep(2)
+        # Click on the login button
+        login_button = driver.find_element(By.XPATH, '//button[text()="Log in"]')
+        login_button.click()
+
+        time.sleep(1)
+        # Press the tab key 3 times
+        for i in range(3):
+            pyautogui.press('tab')
+
+        # Press the enter key
+        pyautogui.press('enter')
+
+        for i in range(2):
+            pyautogui.press('tab')
+        pyautogui.press('enter')
+        # Press the tab key 3 times
+        for i in range(3):
+            pyautogui.press('tab')
+
+        # Press the enter key
+        pyautogui.press('enter')
+
+        pyautogui.typewrite(EMAIL)
+        pyautogui.press('tab')
+        pyautogui.typewrite(TT_PASSWORD)
+        pyautogui.press('enter')
+
+        time.sleep(10)
+
+        for i in range(5):
+            pyautogui.press('tab')
+        pyautogui.press('enter') # go to posting page
+
+        s = driver.find_element(By.XPATH, "//input[@type='Select file']")
+        s.send_keys(file_path)
+
+        for i in range(4): # go to caption entry
+            pyautogui.press('tab')
+        pyautogui.typewrite(caption)
+        for i in range(5): # go to post button
+            pyautogui.press('tab')
+        pyautogui.press('enter') # post
+        time.sleep(3) # wait 3 seconds then close window
     if instacb.get(): #instagram upload code here
         pass
 

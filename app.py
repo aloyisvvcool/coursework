@@ -116,21 +116,78 @@ def post():
     if instacb.get(): #instagram upload code here
         pass
 
+def go_settings():
+    def dark_mode_toggle():
+        if dark_mode.get():
+            customtkinter.set_appearance_mode("light")  # Modes: "System" (standard), "Dark", "Light"
+        else: 
+            customtkinter.set_appearance_mode("dark")  # Modes: "System" (standard), "Dark", "Light"
+        print(customtkinter.get_appearance_mode())
+    frame_1.destroy()
+    global frame_2
+    frame_2 = customtkinter.CTkFrame(master=app)
+    frame_2.pack(pady=20, padx=60, fill="both", expand=True)
+    dark_mode = customtkinter.CTkSwitch(master=frame_2, command=dark_mode_toggle, text='Light Mode')
+    dark_mode.place(x=70,y=130)
+    if customtkinter.get_appearance_mode() == 'Light':
+        dark_mode.select()
+    heading = customtkinter.CTkLabel(master=frame_2, justify=tkinter.LEFT, text='Settings', font=('Helvetica', 30))
+    heading.place(x=230,y=10)
+    post = customtkinter.CTkButton(master=frame_2, command=go_post, text='Schedule Post')
+    post.place(x=450,y=600)
+
+def go_post():
+    frame_2.destroy()
+    global frame_1
+    frame_1 = customtkinter.CTkFrame(master=app)
+    frame_1.pack(pady=20, padx=60, fill="both", expand=True)
+
+    title_entry = customtkinter.CTkEntry(master=frame_1, placeholder_text="Title")
+    title_entry.place(x=300,y=70)
+    title_confirm = customtkinter.CTkButton(master=frame_1, command=titleadd, text='Choose Title')
+    title_confirm.place(x=300,y=110)
+
+    caption_entry = customtkinter.CTkTextbox(master=frame_1, height=200)
+    caption_entry.place(x=300,y=160)
+    caption_confirm = customtkinter.CTkButton(master=frame_1, command=descriptionadd, text='Choose Description')
+    caption_confirm.place(x=300,y=370)
+
+    time_entry = customtkinter.CTkEntry(master=frame_1, placeholder_text="HHMM")
+    time_entry.place(x=300,y=420)
+    time_confirm = customtkinter.CTkButton(master=frame_1, command=timeadd, text='Add Time')
+    time_confirm.place(x=300,y=460)
+
+    date_entry = customtkinter.CTkEntry(master=frame_1, placeholder_text="DDMMYYYY")
+    date_entry.place(x=300,y=510)
+    date_confirm = customtkinter.CTkButton(master=frame_1, command=dateadd, text='Add Date')
+    date_confirm.place(x=300,y=550)
+
+    file_select = customtkinter.CTkButton(master=frame_1, command=choose_file, text='Select Video File')
+    file_select.place(x=300,y=590)
+
+    post_button = customtkinter.CTkButton(master=frame_1, command=post, text='Schedule!')
+    post_button.place(x=300,y=630)
+
+    heading = customtkinter.CTkLabel(master=frame_1, justify=tkinter.LEFT, text='New Post', font=('Helvetica', 30))
+    heading.place(x=230,y=10)
+
+    youtubecb = customtkinter.CTkCheckBox(master=frame_1, command=youtubecheck, text='Youtube', font=('Helvetica', 20))
+    youtubecb.place(x=70,y=70)
+
+    twittercb = customtkinter.CTkCheckBox(master=frame_1, command=twittercheck, text='Twitter', font=('Helvetica', 20))
+    twittercb.place(x=70,y=120)
+
+    tiktokcb = customtkinter.CTkCheckBox(master=frame_1, command=tiktokcheck, text='Tiktok', font=('Helvetica', 20))
+    tiktokcb.place(x=70,y=170)
+
+    instacb = customtkinter.CTkCheckBox(master=frame_1, command=instacheck, text='Instagram', font=('Helvetica', 20))
+    instacb.place(x=70,y=220)
+
+    settings = customtkinter.CTkButton(master=frame_1, command=go_settings, text='Settings')
+    settings.place(x=450,y=600)
+
 frame_1 = customtkinter.CTkFrame(master=app)
 frame_1.pack(pady=20, padx=60, fill="both", expand=True)
-
-#fix this lol
-'''
-app.tabview = customtkinter.CTkTabview(app, width=720, height=720)
-app.tabview.place(x=0 , y=0)
-app.tabview.add("CTkTabview")
-app.tabview.add("Tab 2")
-app.tabview.add("Tab 3")
-app.tabview.tab("CTkTabview").grid_columnconfigure(0, weight=1)  # configure grid of individual tabs
-app.tabview.tab("Tab 2").grid_columnconfigure(0, weight=1)
-app.label_tab_2 = customtkinter.CTkLabel(app.tabview.tab("Tab 2"), text="CTkLabel on Tab 2")
-app.label_tab_2.grid(row=0, column=0, padx=20, pady=20)
-'''
 
 title_entry = customtkinter.CTkEntry(master=frame_1, placeholder_text="Title")
 title_entry.place(x=300,y=70)
@@ -155,7 +212,7 @@ date_confirm.place(x=300,y=550)
 file_select = customtkinter.CTkButton(master=frame_1, command=choose_file, text='Select Video File')
 file_select.place(x=300,y=590)
 
-post_button = customtkinter.CTkButton(master=frame_1, command=post, text='Post!')
+post_button = customtkinter.CTkButton(master=frame_1, command=post, text='Schedule!')
 post_button.place(x=300,y=630)
 
 heading = customtkinter.CTkLabel(master=frame_1, justify=tkinter.LEFT, text='New Post', font=('Helvetica', 30))
@@ -173,5 +230,7 @@ tiktokcb.place(x=70,y=170)
 instacb = customtkinter.CTkCheckBox(master=frame_1, command=instacheck, text='Instagram', font=('Helvetica', 20))
 instacb.place(x=70,y=220)
 
+settings = customtkinter.CTkButton(master=frame_1, command=go_settings, text='Settings')
+settings.place(x=450,y=600)
 
 app.mainloop()

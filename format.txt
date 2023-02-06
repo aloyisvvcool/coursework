@@ -1,5 +1,11 @@
 fernet encryption key
+EMAIL
 twt ACCESS_KEY
 twt ACCESS_SECRET
 twt CONSUMER_KEY
 twt CONSUMER_SECRET
+TT_PASSWORD
+yt secret
+yt client
+insta client
+insta secret

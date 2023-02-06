@@ -9,8 +9,14 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 import pyautogui
 import time
+import tweepy
+
 EMAIL = 'plsgivea1@gmail.com'
 TT_PASSWORD = "compa1orcry!"
+ACCESS_KEY = 'test_access_kEy'
+ACCESS_SECRET = 'test_access_secRET'
+CONSUMER_KEY = 'test_consumer_KEy'
+CONSUMER_SECRET = 'tEST_Consumer_secret'
 file_path = None #initialised just so tiktok posting can run, should be changed later on
 customtkinter.set_appearance_mode("dark")  # Modes: "System" (standard), "Dark", "Light"
 customtkinter.set_default_color_theme("blue")  # Themes: "blue" (standard), "green", "dark-blue"
@@ -119,7 +125,13 @@ def post():
     if youtubecb.get(): #youtube upload code here
         pass
     if twittercb.get(): #twitter upload code here
-        pass
+        client = tweepy.Client(access_token=ACCESS_KEY,
+                    access_token_secret=ACCESS_SECRET,
+                    consumer_key=CONSUMER_KEY,
+                    consumer_secret=CONSUMER_SECRET)
+
+    picture = client.media_upload("media1.png") #picture part is optional, remove from line below if not used
+    client.create_tweet(text='test',media_ids=picture)
     if tiktokcb.get(): #tiktok upload code here
         driver = webdriver.Edge()
 

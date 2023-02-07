@@ -205,8 +205,186 @@ def go_settings():
     post.place(x=450,y=600)
 
 def go_post():
+    def convert_number_to_date(number):
+        date_string = datetime.strptime(number, '%d%m%Y').strftime('%d %B %Y')
+        return date_string
+    def youtubecheck():
+        print(youtubecb.get())
+
+    def twittercheck():
+        print(twittercb.get())
+
+    def tiktokcheck():
+        print(tiktokcb.get())
+
+    def instacheck():
+        print(instacb.get())
+
+    titleadded = False
+    def titleadd():
+        global titleadded
+        if titleadded == True:
+            destroy_title = lambda: title.destroy()
+            destroy_title()
+        title_name = title_entry.get()
+        global title
+        title=customtkinter.CTkLabel(app, text=f'Title: {title_name}', font=('Helvetica', 15))
+        title.place(x=70,y=300)
+        titleadded = True
+
+    captionadded = False
+    def descriptionadd():
+        global captionadded
+        if captionadded == True:
+            destroy_caption = lambda: caption.destroy()
+            destroy_caption()
+        caption_name = caption_entry.get("1.0", 'end-1c')
+        global caption
+        caption=customtkinter.CTkLabel(app, text=f'Caption: {caption_name}', font=('Helvetica', 15))
+        caption.place(x=70,y=430)
+        captionadded = True
+        
+    timeadded = False
+    def timeadd():
+        time_str = time_entry.get()
+        if not time_str.isdigit() or len(time_str) != 4:
+            raise ValueError("Input should be a 4-digit time string in the format 'HHMM'")
+        hour = int(time_str[:2])
+        minute = int(time_str[2:])
+        if hour == 0:
+            hour = 12
+            am_pm = "AM"
+        elif hour < 12:
+            am_pm = "AM"
+        elif hour == 12:
+            am_pm = "PM"
+        else:
+            hour -= 12
+            am_pm = "PM"
+        formatted_time = f"{hour}:{minute:02d} {am_pm}"
+
+        global timeadded
+        if timeadded == True:
+            destroy_time = lambda: time.destroy()
+            destroy_time()
+        formatted_time = f"{hour}:{minute:02d} {am_pm}"
+        global time
+        time=customtkinter.CTkLabel(app, text=f'Time: {formatted_time}', font=('Helvetica', 15))
+        time.place(x=70,y=330)
+        timeadded = True
+
+    dateadded = False
+    def dateadd():
+        date_string = datetime.strptime(date_entry.get(), '%d%m%Y').strftime('%d %B %Y')
+        print(date_string)
+        global dateadded
+        if dateadded == True:
+            destroy_date = lambda: date.destroy()
+            destroy_date()
+        global date
+        date=customtkinter.CTkLabel(app, text=f'Date: {date_string}', font=('Helvetica', 15))
+        date.place(x=70,y=360)
+        dateadded = True
+
+    fileadded = False
+    def choose_file():
+        file_path = str(fd.askopenfile())[25:-28]
+        print(file_path)
+        if len(file_path) > 30:
+            file_path = file_path[:30] + "\n" + file_path[30:]
+        global fileadded
+        if fileadded == True:
+            destroy_file = lambda: file.destroy()
+            destroy_file()
+        global file
+        file=customtkinter.CTkLabel(app, text=f'File: {file_path}', font=('Helvetica', 15))
+        file.place(x=70,y=390)
+        fileadded = True
+
+    def post():
+        if youtubecb.get(): #youtube upload code here
+            pass
+        if twittercb.get(): #twitter upload code here
+            client = tweepy.Client(access_token=ACCESS_KEY,
+                        access_token_secret=ACCESS_SECRET,
+                        consumer_key=CONSUMER_KEY,
+                        consumer_secret=CONSUMER_SECRET)
+
+        picture = client.media_upload("media1.png") #picture part is optional, remove from line below if not used
+        client.create_tweet(text='test',media_ids=picture)
+        if tiktokcb.get(): #tiktok upload code here
+            driver = webdriver.Edge()
+
+            # Navigate to TikTok website
+            driver.get("https://www.tiktok.com/")
+            time.sleep(2)
+            # Click on the login button
+            login_button = driver.find_element(By.XPATH, '//button[text()="Log in"]')
+            login_button.click()
+
+            time.sleep(1)
+            # Press the tab key 3 times
+            for i in range(3):
+                pyautogui.press('tab')
+
+            # Press the enter key
+            pyautogui.press('enter')
+
+            for i in range(2):
+                pyautogui.press('tab')
+            pyautogui.press('enter')
+            # Press the tab key 3 times
+            for i in range(3):
+                pyautogui.press('tab')
+
+            # Press the enter key
+            pyautogui.press('enter')
+
+            pyautogui.typewrite(EMAIL)
+            pyautogui.press('tab')
+            pyautogui.typewrite(TT_PASSWORD)
+            pyautogui.press('enter')
+
+            time.sleep(10)
+
+            for i in range(5):
+                pyautogui.press('tab')
+            pyautogui.press('enter') # go to posting page
+
+            s = driver.find_element(By.XPATH, "//input[@type='Select file']")
+            s.send_keys(file_path)
+
+            for i in range(4): # go to caption entry
+                pyautogui.press('tab')
+            pyautogui.typewrite(caption)
+            for i in range(5): # go to post button
+                pyautogui.press('tab')
+            pyautogui.press('enter') # post
+            time.sleep(3) # wait 3 seconds then close window
+        if instacb.get(): #instagram upload code here
+            pass
+
+    def go_settings():
+        def dark_mode_toggle():
+            if dark_mode.get():
+                customtkinter.set_appearance_mode("light")  # Modes: "System" (standard), "Dark", "Light"
+            else: 
+                customtkinter.set_appearance_mode("dark")  # Modes: "System" (standard), "Dark", "Light"
+            print(customtkinter.get_appearance_mode())
+        frame_1.destroy()
+        global frame_2
+        frame_2 = customtkinter.CTkFrame(master=app)
+        frame_2.pack(pady=20, padx=60, fill="both", expand=True)
+        dark_mode = customtkinter.CTkSwitch(master=frame_2, command=dark_mode_toggle, text='Light Mode')
+        dark_mode.place(x=70,y=130)
+        if customtkinter.get_appearance_mode() == 'Light':
+            dark_mode.select()
+        heading = customtkinter.CTkLabel(master=frame_2, justify=tkinter.LEFT, text='Settings', font=('Helvetica', 30))
+        heading.place(x=230,y=10)
+        post = customtkinter.CTkButton(master=frame_2, command=go_post, text='Schedule Post')
+        post.place(x=450,y=600)
+
     frame_2.destroy()
-    global frame_1
     frame_1 = customtkinter.CTkFrame(master=app)
     frame_1.pack(pady=20, padx=60, fill="both", expand=True)
 
@@ -253,6 +431,8 @@ def go_post():
 
     settings = customtkinter.CTkButton(master=frame_1, command=go_settings, text='Settings')
     settings.place(x=450,y=600)
+
+    app.mainloop()
 
 frame_1 = customtkinter.CTkFrame(master=app)
 frame_1.pack(pady=20, padx=60, fill="both", expand=True)

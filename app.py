@@ -362,7 +362,28 @@ def go_post():
             pyautogui.press('enter') # post
             time.sleep(3) # wait 3 seconds then close window
         if instacb.get(): #instagram upload code here
-            pass
+            driver = webdriver.Edge()
+
+            # Navigate to Instagram website
+            driver.get("https://www.instagram.com/")                             
+            time.sleep(5)
+
+            # Press the tab key 2 times
+            for i in range(2):
+                pyautogui.press('tab')
+
+            pyautogui.typewrite(EMAIL)
+            pyautogui.press('tab')
+            pyautogui.typewrite(TT_PASSWORD) #insta uses same password
+            pyautogui.press('enter')
+
+            time.sleep(10)
+            # press the tab key 8 times
+            for i in range(8):
+                pyautogui.press('tab')
+            time.sleep(2)
+            pyautogui.press('enter')
+            time.sleep(10)
 
     def go_settings():
         def dark_mode_toggle():

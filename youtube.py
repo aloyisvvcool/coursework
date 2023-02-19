@@ -94,7 +94,7 @@ request_body = {
     },
     'status': {
         'privacyStatus': 'private',                                                                 #Status privacy
-        'publishedAt': upload_time,                                                                 #Post the video
+        'publishAt': upload_time,                                                                   #Post the video
         'selfDeclaredMadeForKids': False                                                            #Kids?
     },
     'notifySubscribers': False                                                                      #Will the video notify subscibers

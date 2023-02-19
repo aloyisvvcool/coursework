@@ -16,11 +16,9 @@ FILE_PATH = "/Users/snyper/Downloads/testfile.png"
 # Create a new instance of the Chrome driver
 driver = webdriver.Edge()
 
-print("section 2")
-
 # Navigate to Instagram website
 driver.get("https://www.instagram.com/")                             
-time.sleep(10)
+time.sleep(5)
 
 # Press the tab key 2 times
 for i in range(2):
@@ -37,7 +35,7 @@ for i in range(8):
     pyautogui.press('tab')
 time.sleep(2)
 pyautogui.press('enter')
-time.sleep(20)
+time.sleep(10)
 
 
 

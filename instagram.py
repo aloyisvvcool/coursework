@@ -14,7 +14,7 @@ LOGIN_EMAIL = "plsgivea1@gmail.com"
 LOGIN_PASSWORD = "43w tg534tgi537 bgv34"
 FILE_PATH = "/Users/snyper/Downloads/testfile.png"
 CAPTION = "THIS IS A TEST"
-# Create a new instance of the Chrome driver
+# Create a new instance of the Edge driver
 driver = webdriver.Edge()
 
 # Navigate to Instagram website
@@ -39,14 +39,6 @@ pyautogui.press('enter')
 time.sleep(10)
 
 
-
-'''
-
-
-EVERYTHING BELOW HERE IS NOT TESTED
-
-
-'''
 # Find the file input element and send the file path
 pyautogui.press('tab')
 time.sleep(2)
@@ -70,4 +62,4 @@ pyautogui.hotkey('shift', 'tab')
 pyautogui.hotkey('shift', 'tab')
 pyautogui.press('enter')
 
-time.sleep(30)
+time.sleep(15)

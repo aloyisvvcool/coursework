@@ -10,16 +10,31 @@ from selenium.webdriver.support import expected_conditions as EC
 import pyautogui
 import time
 import tweepy
+from cryptography.fernet import Fernet
 
-EMAIL = 'plsgivea1@gmail.com'
-TT_PASSWORD = "compa1orcry!"
-ACCESS_KEY = 'test_access_kEy'
-ACCESS_SECRET = 'test_access_secRET'
-CONSUMER_KEY = 'test_consumer_KEy'
-CONSUMER_SECRET = 'tEST_Consumer_secret'
+def tobytes(x):
+    return bytes(x,'utf-8')
+
+texts = []
+with open('textinfo.txt','r') as f:
+    [texts.append(line.strip()) for line in f.readlines()]
+
+key = tobytes(texts[0])
+fernet = Fernet(key) #casts key to needed type
+
+TWITTER_ACCESS_KEY = fernet.decrypt(tobytes(texts[1])).decode() #creates usable strings
+TWITTER_ACCESS_SECRET = fernet.decrypt(tobytes(texts[2])).decode()
+TWITTER_CONSUMER_KEY = fernet.decrypt(tobytes(texts[3])).decode()
+TWITTER_CONSUMER_SECRET = fernet.decrypt(tobytes(texts[4])).decode()
+TIKTOK_EMAIL = fernet.decrypt(tobytes(texts[5])).decode()
+TIKTOK_PASSWORD = fernet.decrypt(tobytes(texts[6])).decode()
+YOUTUBE_CLIENT = fernet.decrypt(tobytes(texts[7])).decode()
+YOUTUBE_SECRET = fernet.decrypt(tobytes(texts[8])).decode()
+INSTAGRAM_EMAIL = fernet.decrypt(tobytes(texts[9])).decode()
+INSTAGRAM_PASSWORD = fernet.decrypt(tobytes(texts[10])).decode()
 file_path = None #initialised just so tiktok posting can run, should be changed later on
-customtkinter.set_appearance_mode("dark")  # Modes: "System" (standard), "Dark", "Light"
-customtkinter.set_default_color_theme("blue")  # Themes: "blue" (standard), "green", "dark-blue"
+customtkinter.set_appearance_mode("dark")  #this gets changed in the app
+customtkinter.set_default_color_theme("blue")
 
 app = customtkinter.CTk()
 app.geometry("720x720")
@@ -121,68 +136,44 @@ def choose_file():
     file.place(x=70,y=390)
     fileadded = True
 
-def post():
-    if youtubecb.get(): #youtube upload code here
-        pass
-    if twittercb.get(): #twitter upload code here
-        client = tweepy.Client(access_token=ACCESS_KEY,
-                    access_token_secret=ACCESS_SECRET,
-                    consumer_key=CONSUMER_KEY,
-                    consumer_secret=CONSUMER_SECRET)
 
-    picture = client.media_upload("media1.png") #picture part is optional, remove from line below if not used
-    client.create_tweet(text='test',media_ids=picture)
-    if tiktokcb.get(): #tiktok upload code here
-        driver = webdriver.Edge()
+def instapost(email, password): #function to post on instagram
+    driver = webdriver.Edge()
 
-        # Navigate to TikTok website
-        driver.get("https://www.tiktok.com/")
-        time.sleep(2)
-        # Click on the login button
-        login_button = driver.find_element(By.XPATH, '//button[text()="Log in"]')
-        login_button.click()
+    # Navigate to Instagram website
+    driver.get("https://www.instagram.com/")                             
+    time.sleep(5)
 
-        time.sleep(1)
-        # Press the tab key 3 times
-        for i in range(3):
-            pyautogui.press('tab')
-
-        # Press the enter key
-        pyautogui.press('enter')
-
-        for i in range(2):
-            pyautogui.press('tab')
-        pyautogui.press('enter')
-        # Press the tab key 3 times
-        for i in range(3):
-            pyautogui.press('tab')
-
-        # Press the enter key
-        pyautogui.press('enter')
-
-        pyautogui.typewrite(EMAIL)
+    # Press the tab key 2 times
+    for i in range(2):
         pyautogui.press('tab')
-        pyautogui.typewrite(TT_PASSWORD)
-        pyautogui.press('enter')
 
-        time.sleep(10)
+    pyautogui.typewrite(email)
+    pyautogui.press('tab')
+    pyautogui.typewrite(password) #insta uses same password
+    pyautogui.press('enter')
 
-        for i in range(5):
-            pyautogui.press('tab')
-        pyautogui.press('enter') # go to posting page
+    time.sleep(10)
+    # press the tab key 8 times
+    for i in range(8):
+        pyautogui.press('tab')
+    time.sleep(2)
+    pyautogui.press('enter')
+    time.sleep(10)
 
-        s = driver.find_element(By.XPATH, "//input[@type='Select file']")
-        s.send_keys(file_path)
+def twitterpost(access_key, access_secret, consumer_key, consumer_secret, title, video):
+    client = tweepy.Client(access_token=access_key,
+                    access_token_secret=access_secret,
+                    consumer_key=consumer_key,
+                    consumer_secret=consumer_secret)
+    client.create_tweet(text=title,media_ids=video)
 
-        for i in range(4): # go to caption entry
-            pyautogui.press('tab')
-        pyautogui.typewrite(caption)
-        for i in range(5): # go to post button
-            pyautogui.press('tab')
-        pyautogui.press('enter') # post
-        time.sleep(3) # wait 3 seconds then close window
-    if instacb.get(): #instagram upload code here
+def post():
+    if youtubecb.get(): #youtube code here
         pass
+    if twittercb.get(): #twitter code here
+        pass
+
 
 def go_settings():
     def dark_mode_toggle():
@@ -196,15 +187,72 @@ def go_settings():
     frame_2 = customtkinter.CTkFrame(master=app)
     frame_2.pack(pady=20, padx=60, fill="both", expand=True)
     dark_mode = customtkinter.CTkSwitch(master=frame_2, command=dark_mode_toggle, text='Light Mode')
-    dark_mode.place(x=70,y=130)
+    dark_mode.place(x=70,y=100)
     if customtkinter.get_appearance_mode() == 'Light':
         dark_mode.select()
     heading = customtkinter.CTkLabel(master=frame_2, justify=tkinter.LEFT, text='Settings', font=('Helvetica', 30))
     heading.place(x=230,y=10)
+
+    def updatekeys():
+        TWITTER_ACCESS_KEY = textbox_TWITTER_ACCESS_KEY.get()
+        TWITTER_ACCESS_SECRET = textbox_TWITTER_ACCESS_SECRET.get()
+        TWITTER_CONSUMER_KEY = textbox_TWITTER_CONSUMER_KEY.get()
+        TWITTER_CONSUMER_SECRET = textbox_TWITTER_ACCESS_SECRET.get()
+        TIKTOK_EMAIL = textbox_TIKTOK_EMAIL.get()
+        TIKTOK_PASSWORD = textbox_TIKTOK_PASSWORD.get()
+        YOUTUBE_CLIENT = textbox_YOUTUBE_CLIENT.get()
+        YOUTUBE_SECRET = textbox_YOUTUBE_SECRET.get()
+        INSTAGRAM_EMAIL = textbox_INSTAGRAM_EMAIL.get()
+        INSTAGRAM_PASSWORD = textbox_INSTAGRAM_PASSWORD.get()
+        all_info = [
+            TWITTER_ACCESS_KEY,
+            TWITTER_ACCESS_SECRET,
+            TWITTER_CONSUMER_KEY,
+            TWITTER_CONSUMER_SECRET,
+            TIKTOK_EMAIL,
+            TIKTOK_PASSWORD,
+            YOUTUBE_CLIENT,
+            YOUTUBE_SECRET,
+            INSTAGRAM_EMAIL,
+            INSTAGRAM_PASSWORD
+        ]
+        key = Fernet.generate_key() #key generation, generates new keys each time
+        fernet = Fernet(key) #cast key to fernet type
+        
+        with open('textinfo.txt','w') as f: #create txt file if it doesnt exist, and write to key
+            f.write(str(key)[2:-1] + '\n')
+            for i in all_info:
+                encoded = fernet.encrypt(i.encode()) #encodes i
+                f.write(str(encoded)[2:-1] + '\n')
+            f.close()
+
+    textbox_TWITTER_ACCESS_KEY = customtkinter.CTkEntry(master=frame_2,width=400, placeholder_text="Twitter Access Key")
+    textbox_TWITTER_ACCESS_KEY.place(x=70,y=140)
+    textbox_TWITTER_ACCESS_SECRET = customtkinter.CTkEntry(master=frame_2,width=400, placeholder_text="Twitter Access Secret")
+    textbox_TWITTER_ACCESS_SECRET.place(x=70,y=180)
+    textbox_TWITTER_CONSUMER_KEY = customtkinter.CTkEntry(master=frame_2,width=400, placeholder_text="Twitter Consumer Key")
+    textbox_TWITTER_CONSUMER_KEY.place(x=70,y=220)
+    textbox_TWITTER_CONSUMER_SECRET = customtkinter.CTkEntry(master=frame_2,width=400, placeholder_text="Twitter Consumer Secret")
+    textbox_TWITTER_CONSUMER_SECRET.place(x=70,y=260)
+    textbox_TIKTOK_EMAIL = customtkinter.CTkEntry(master=frame_2,width=400, placeholder_text="Tiktok Email")
+    textbox_TIKTOK_EMAIL.place(x=70,y=300)
+    textbox_TIKTOK_PASSWORD = customtkinter.CTkEntry(master=frame_2,width=400, placeholder_text="Tiktok Password")
+    textbox_TIKTOK_PASSWORD.place(x=70,y=340)
+    textbox_YOUTUBE_CLIENT = customtkinter.CTkEntry(master=frame_2,width=400, placeholder_text="Youtube Client")
+    textbox_YOUTUBE_CLIENT.place(x=70,y=380)
+    textbox_YOUTUBE_SECRET = customtkinter.CTkEntry(master=frame_2,width=400, placeholder_text="Youtube Secret")
+    textbox_YOUTUBE_SECRET.place(x=70,y=420)
+    textbox_INSTAGRAM_EMAIL = customtkinter.CTkEntry(master=frame_2,width=400, placeholder_text="Instagram Email")
+    textbox_INSTAGRAM_EMAIL.place(x=70,y=460)
+    textbox_INSTAGRAM_PASSWORD = customtkinter.CTkEntry(master=frame_2,width=400, placeholder_text="Instagram Password")
+    textbox_INSTAGRAM_PASSWORD.place(x=70,y=500)
+    updateinfo = customtkinter.CTkButton(master=frame_2, command=updatekeys, text='Update Information')
+    updateinfo.place(x=70,y=540)
+
     post = customtkinter.CTkButton(master=frame_2, command=go_post, text='Schedule Post')
     post.place(x=450,y=600)
 
-def go_post():
+def go_post(): #this is just every other line of code in this file (excluding library imports), but the code doesnt work without it
     def convert_number_to_date(number):
         date_string = datetime.strptime(number, '%d%m%Y').strftime('%d %B %Y')
         return date_string
@@ -362,28 +410,7 @@ def go_post():
             pyautogui.press('enter') # post
             time.sleep(3) # wait 3 seconds then close window
         if instacb.get(): #instagram upload code here
-            driver = webdriver.Edge()
-
-            # Navigate to Instagram website
-            driver.get("https://www.instagram.com/")                             
-            time.sleep(5)
-
-            # Press the tab key 2 times
-            for i in range(2):
-                pyautogui.press('tab')
-
-            pyautogui.typewrite(EMAIL)
-            pyautogui.press('tab')
-            pyautogui.typewrite(TT_PASSWORD) #insta uses same password
-            pyautogui.press('enter')
-
-            time.sleep(10)
-            # press the tab key 8 times
-            for i in range(8):
-                pyautogui.press('tab')
-            time.sleep(2)
-            pyautogui.press('enter')
-            time.sleep(10)
+            pass
 
     def go_settings():
         def dark_mode_toggle():

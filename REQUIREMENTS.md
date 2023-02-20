@@ -9,9 +9,10 @@ This program requires Python 3.0 or higher to be installed on your MacOS machine
 - pyautogui
 - time
 - tweepy
+- cryptography
 
 You can install these libraries using pip. To do so, open a terminal window and run the following command:
 
 ```bash
-  pip3 install --force --install tkinter customtkinter datetime selenium pyautogui time tweepy
+  pip3 install --force --install tkinter customtkinter datetime selenium pyautogui time tweepy cryptography
 ```

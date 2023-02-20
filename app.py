@@ -102,6 +102,7 @@ def timeadd():
         raise ValueError("Input should be a 4-digit time string in the format 'HHMM'")
     hour = int(time_str[:2])
     minute = int(time_str[2:])
+    '''
     if hour == 0:
         hour = 12
         am_pm = "AM"
@@ -112,31 +113,34 @@ def timeadd():
     else:
         hour -= 12
         am_pm = "PM"
-    formatted_time = f"{hour}:{minute:02d} {am_pm}"
+    '''
+    formatted_time = f"{hour}:{minute:02d}"
 
     global timeadded
     if timeadded == True:
-        destroy_time = lambda: time.destroy()
+        destroy_time = lambda: timevar.destroy()
         destroy_time()
-    formatted_time = f"{hour}:{minute:02d} {am_pm}"
+    formatted_time = f"{hour}:{minute:02d}"
     upload_time = formatted_time
-    global time
-    time=customtkinter.CTkLabel(app, text=f'Time: {formatted_time}', font=('Helvetica', 15))
-    time.place(x=70,y=330)
+    global timevar
+    timevar=customtkinter.CTkLabel(app, text=f'Time: {formatted_time}', font=('Helvetica', 15))
+    timevar.place(x=70,y=330)
     timeadded = True
 
 dateadded = False
 def dateadd():
     global upload_date
-    date_string = datetime.strptime(date_entry.get(), '%d%m%Y').strftime('%d %B %Y')
-    upload_date = date_string
-    print(date_string)
+    day = date_entry.get()[:2]
+    month = date_entry.get()[2:4]
+    year = date_entry.get()[4:]
+    upload_date = f"{day}/{month}/{year}"
+    print(upload_date)
     global dateadded
     if dateadded == True:
         destroy_date = lambda: date.destroy()
         destroy_date()
     global date
-    date=customtkinter.CTkLabel(app, text=f'Date: {date_string}', font=('Helvetica', 15))
+    date=customtkinter.CTkLabel(app, text=f'Date: {upload_date}', font=('Helvetica', 15))
     date.place(x=70,y=360)
     dateadded = True
 
@@ -156,9 +160,10 @@ def choose_file():
     fileadded = True
 
 def post():
-    date_time_str = upload_date + " " + upload_time
+    global upload_date
+    global upload_time
+    date_time_str = str(upload_date) + " " + str(upload_time)
     end_time = time.strptime(date_time_str, "%d/%m/%Y %H:%M")
-
     while True:
         current_time = time.localtime()
         if current_time >= end_time:
@@ -375,9 +380,8 @@ def post():
                     pyautogui.press('tab')
                 pyautogui.press('enter')
                 time.sleep(10)
-
+            time.sleep(60)
             break
-        time.sleep(60)
 
 def go_settings():
     def dark_mode_toggle():

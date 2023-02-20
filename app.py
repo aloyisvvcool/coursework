@@ -1,14 +1,14 @@
 '''
 
-2023 Computing+ Coursework: Sociable
-By: Aloysius (S4-01), Shrinithi (S4-01), Jonathan (S4-07)
+2023 Computing+ Coursework: Sociable - A Social Media Posting App
+By: Aloysius (S4-01), Shrinithi (S4-01), Jonathan (S4-07) 
 
-Please read the README.md file for more information about this project
-Please ensure that all required packages & libraries are installed
-Note: Twitter posting will not work after 9 Feb 2023 since Twitter has made the Twitter API a paid service (https://developer.twitter.com/en/docs/twitter-api/getting-started/about-twitter-api)
+Please read the README.md file for more information about this project and how to use it.
+Please ensure that all required packages & libraries are installed before running this app.
+Note: Twitter posting will not work after 9 Feb 2023 since Twitter has made the Twitter API a paid service (https://developer.twitter.com/en/docs/twitter-api/getting-started/about-twitter-api).
 
-Code done by Jonathan and Shrinithi are indicated at the start and end of their respective parts
-Other lines (except importing of packages & libraries) are done by Aloysius
+Code done by Jonathan and Shrinithi are indicated at the start and end of their respective parts.
+Other lines (except importing of packages & libraries) are done by Aloysius.
 
 '''
 
@@ -564,56 +564,56 @@ def go_post(): #this is every other line of code in this file (excluding library
                     '''
                     Start of Jonathan's Code
                     '''
-                    def create_service(client_secret_file, api_name, api_version, *scopes, prefix=''):
-                        CLIENT_SECRET_FILE = client_secret_file
-                        API_SERVICE_NAME = api_name
-                        API_VERSION = api_version
-                        SCOPES = [scope for scope in scopes[0]]
+                    def create_service(client_secret_file, api_name, api_version, *scopes, prefix=''): #function to create a service for the youtube api
+                        CLIENT_SECRET_FILE = client_secret_file #assign the client secret file to a variable
+                        API_SERVICE_NAME = api_name #assign the api name to a variable
+                        API_VERSION = api_version #assign the api version to a variable
+                        SCOPES = [scope for scope in scopes[0]] #assign the scopes to a variable
                         
-                        creds = None
-                        working_dir = os.getcwd()
-                        token_dir = 'token files'
-                        token_file = f'token_{API_SERVICE_NAME}_{API_VERSION}{prefix}.json'
+                        creds = None #create a variable for the credentials
+                        working_dir = os.getcwd() #get the current working directory
+                        token_dir = 'token files' #create a variable for the token directory
+                        token_file = f'token_{API_SERVICE_NAME}_{API_VERSION}{prefix}.json' #create a variable for the token file
 
                         ### Check if token dir exists first, if not, create the folder
-                        if not os.path.exists(os.path.join(working_dir, token_dir)):
-                            os.mkdir(os.path.join(working_dir, token_dir))
+                        if not os.path.exists(os.path.join(working_dir, token_dir)): #if the token directory does not exist, create it
+                            os.mkdir(os.path.join(working_dir, token_dir)) #create the token directory
 
-                        if os.path.exists(os.path.join(working_dir, token_dir, token_file)):
-                            creds = Credentials.from_authorized_user_file(os.path.join(working_dir, token_dir, token_file), SCOPES)
+                        if os.path.exists(os.path.join(working_dir, token_dir, token_file)): #if the token file exists, load it
+                            creds = Credentials.from_authorized_user_file(os.path.join(working_dir, token_dir, token_file), SCOPES) #load the token file
                             # with open(os.path.join(working_dir, token_dir, token_file), 'rb') as token:
                             #   cred = pickle.load(token)
 
-                        if not creds or not creds.valid:
-                            if creds and creds.expired and creds.refresh_token:
+                        if not creds or not creds.valid: #if the credentials are not valid, refresh them
+                            if creds and creds.expired and creds.refresh_token: #if the credentials are expired, refresh them
                                 creds.refresh(Request())
                             else:
-                                flow = InstalledAppFlow.from_client_secrets_file(CLIENT_SECRET_FILE, SCOPES)
-                                creds = flow.run_local_server(port=0)
+                                flow = InstalledAppFlow.from_client_secrets_file(CLIENT_SECRET_FILE, SCOPES) #if the credentials are not valid, create them
+                                creds = flow.run_local_server(port=0) #create the credentials
 
-                            with open(os.path.join(working_dir, token_dir, token_file), 'w') as token:
-                                token.write(creds.to_json())
+                            with open(os.path.join(working_dir, token_dir, token_file), 'w') as token: #save the credentials
+                                token.write(creds.to_json()) #save the credentials
 
                         try:
-                            service = build(API_SERVICE_NAME, API_VERSION, credentials=creds, static_discovery=False)
-                            print(API_SERVICE_NAME, API_VERSION, 'service created successfully')
-                            return service
-                        except Exception as e:
-                            print(e)
-                            print(f'Failed to create service instance for {API_SERVICE_NAME}')
-                            os.remove(os.path.join(working_dir, token_dir, token_file))
-                            return None
+                            service = build(API_SERVICE_NAME, API_VERSION, credentials=creds, static_discovery=False) #create the service
+                            print(API_SERVICE_NAME, API_VERSION, 'service created successfully') #print a message to show that the service has been created
+                            return service #return the service
+                        except Exception as e: #handle any errors
+                            print(e) #print the error
+                            print(f'Failed to create service instance for {API_SERVICE_NAME}') #print a message to show that the service has not been created
+                            os.remove(os.path.join(working_dir, token_dir, token_file)) #remove the token file
+                            return None #return None
 
-                    def video_categories():
-                        video_categories = service.videoCategories().list(part='snippet', regionCode='US').execute()
+                    def video_categories(): #function to get the video categories
+                        video_categories = service.videoCategories().list(part='snippet', regionCode='US').execute()    #get the video categories
                         df = pd.DataFrame(video_categories.get('items'))                                                #display information as a table
                         return pd.concat([df['id'], df['snippet'].apply(pd.Series)[['title']]], axis=1)                 #Return everything in a single view
 
                     API_NAME = 'youtube'                                                                                #API used
                     API_VERSION = 'v3'                                                                                  #Version
                     SCOPES = ['https://www.googleapis.com/auth/youtube']                                                #Permission for anything youtuve related
-                    client_file = 'client-secret.json'
-                    service = create_service(client_file, API_NAME, API_VERSION, SCOPES)
+                    client_file = 'client-secret.json'                                                                  #Client secret file
+                    service = create_service(client_file, API_NAME, API_VERSION, SCOPES)                                #Create service
 
                     #print(video_categories())
                     upload_time = (datetime.datetime.now() + datetime.timedelta(days=10)).isoformat() + '.000Z'         #Upload date
@@ -636,35 +636,35 @@ def go_post(): #this is every other line of code in this file (excluding library
                     media_file = MediaFileUpload(video_file)
 
                     response_video_upload = service.videos().insert(                                                    #Gets video data
-                        part='snippet,status',                                                                          #
-                        body=request_body,                                                                              #
-                        media_body=media_file                                                                           #
-                    ).execute()                                                                                         #
-                    uploaded_video_id = response_video_upload.get('id')    
+                        part='snippet,status',                                                                          #Parts of video
+                        body=request_body,                                                                              #Body of video
+                        media_body=media_file                                                                           #Media file
+                    ).execute()                                                                                         #Execute
+                    uploaded_video_id = response_video_upload.get('id')                                                 #Get video id
 
                     response_thumbnail_upload = service.thumbnails().set(                                               #Upload video thumbnail
                         videoId=uploaded_video_id,                                                                      #Uses video id to assign thumbnail
                         media_body=MediaFileUpload('thumbnail.png')                                                     #thumbnail being used
-                    ).execute()
+                    ).execute()                                                                                         #Execute
 
 
 
-                    video_id = uploaded_video_id
-                    counter = 0
+                    video_id = uploaded_video_id                                                                        #Video id
+                    counter = 0                                                                                         #Counter
                     response_update_video = service.videos().list(id=video_id, part='status').execute()                 #make api get video status
-                    update_video_body = response_update_video['items'][0]
+                    update_video_body = response_update_video['items'][0]                                               #update video body
 
                     while 10 > counter:                                                                                 #Checks if the video is done processing before updating status to public
-                        if update_video_body['status']['uploadStatus'] == 'processed':
-                            update_video_body['status']['privacyStatus'] = 'public'
-                            service.videos().update(
-                                part='status',
-                                body=update_video_body
+                        if update_video_body['status']['uploadStatus'] == 'processed':                                  #Checks if the video is done processing
+                            update_video_body['status']['privacyStatus'] = 'public'                                     #Sets the video to public
+                            service.videos().update(                                                                    #Updates the video
+                                part='status',                                                                          #Part of video
+                                body=update_video_body                                                                  #Body of video
                             ).execute()
-                            print('Video {0} privacy status is updated to "{1}"'.format(update_video_body['id'], update_video_body['status']['privacyStatus']))
+                            print('Video {0} privacy status is updated to "{1}"'.format(update_video_body['id'], update_video_body['status']['privacyStatus'])) #Prints the video id and privacy status
                             break
 
-                        time.sleep(10)
+                        time.sleep(10)                                                                                 #Checks again every period of time
                         response_update_video = service.videos().list(id=video_id, part='status').execute()            #make api get video status
                         update_video_body = response_update_video['items'][0]                                          #update video body
                         counter += 1                                                                                   #increment counter

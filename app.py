@@ -1,14 +1,14 @@
 '''
 
 2023 Computing+ Coursework: Sociable
-By: Aloysius (S4-01), Shrinithi (S4-01), Jonathan (S4=07)
+By: Aloysius (S4-01), Shrinithi (S4-01), Jonathan (S4-07)
 
-Please read the readme and ensure that all required packages & libraries are installed
-Note: Twitter posting will not work after 9 Feb 2023 since Twitter has made the Twitter API a paid service
+Please read the README.md file for more information about this project
+Please ensure that all required packages & libraries are installed
+Note: Twitter posting will not work after 9 Feb 2023 since Twitter has made the Twitter API a paid service (https://developer.twitter.com/en/docs/twitter-api/getting-started/about-twitter-api)
 
-Code done by Jonathan and Shri are indicated at the start and end of their respective parts
+Code done by Jonathan and Shrinithi are indicated at the start and end of their respective parts
 Other lines (except importing of packages & libraries) are done by Aloysius
-Comments are written by all 3 of us
 
 '''
 
@@ -192,28 +192,28 @@ def post(): #function to check if the set time has passed, and then post on vari
                         # with open(os.path.join(working_dir, token_dir, token_file), 'rb') as token:
                         #   cred = pickle.load(token)
 
-                    if not creds or not creds.valid:
-                        if creds and creds.expired and creds.refresh_token:
-                            creds.refresh(Request())
+                    if not creds or not creds.valid: #if the credentials are invalid, refresh them
+                        if creds and creds.expired and creds.refresh_token: #if the credentials are expired, refresh them
+                            creds.refresh(Request()) #refresh the credentials
                         else:
-                            flow = InstalledAppFlow.from_client_secrets_file(CLIENT_SECRET_FILE, SCOPES)
-                            creds = flow.run_local_server(port=0)
+                            flow = InstalledAppFlow.from_client_secrets_file(CLIENT_SECRET_FILE, SCOPES) #create the flow
+                            creds = flow.run_local_server(port=0) #run the flow
 
-                        with open(os.path.join(working_dir, token_dir, token_file), 'w') as token:
-                            token.write(creds.to_json())
+                        with open(os.path.join(working_dir, token_dir, token_file), 'w') as token: #save the credentials
+                            token.write(creds.to_json()) #write the credentials to the token file
 
                     try:
-                        service = build(API_SERVICE_NAME, API_VERSION, credentials=creds, static_discovery=False)
-                        print(API_SERVICE_NAME, API_VERSION, 'service created successfully')
-                        return service
-                    except Exception as e:
-                        print(e)
-                        print(f'Failed to create service instance for {API_SERVICE_NAME}')
-                        os.remove(os.path.join(working_dir, token_dir, token_file))
+                        service = build(API_SERVICE_NAME, API_VERSION, credentials=creds, static_discovery=False) #create the service
+                        print(API_SERVICE_NAME, API_VERSION, 'service created successfully') #if the service is created, print this
+                        return service #return the service
+                    except Exception as e: #if the service fails to create, print the error
+                        print(e) #print the error
+                        print(f'Failed to create service instance for {API_SERVICE_NAME}') #if the service fails to create, print this
+                        os.remove(os.path.join(working_dir, token_dir, token_file)) #remove the token file
                         return None
 
                 def video_categories():
-                    video_categories = service.videoCategories().list(part='snippet', regionCode='US').execute()
+                    video_categories = service.videoCategories().list(part='snippet', regionCode='US').execute()    #Get video categories
                     df = pd.DataFrame(video_categories.get('items'))                                                #display information as a table
                     return pd.concat([df['id'], df['snippet'].apply(pd.Series)[['title']]], axis=1)                 #Return everything in a single view
 
@@ -244,16 +244,16 @@ def post(): #function to check if the set time has passed, and then post on vari
                 media_file = MediaFileUpload(video_file)
 
                 response_video_upload = service.videos().insert(                                                    #Gets video data
-                    part='snippet,status',                                                                          #
-                    body=request_body,                                                                              #
-                    media_body=media_file                                                                           #
-                ).execute()                                                                                         #
-                uploaded_video_id = response_video_upload.get('id')    
+                    part='snippet,status',                                                                          #Parts of the video
+                    body=request_body,                                                                              #Body of the video
+                    media_body=media_file                                                                           #Media of the video
+                ).execute()                                                                                         #Execute the video
+                uploaded_video_id = response_video_upload.get('id')                                                 #Get the video id
 
                 response_thumbnail_upload = service.thumbnails().set(                                               #Upload video thumbnail
                     videoId=uploaded_video_id,                                                                      #Uses video id to assign thumbnail
                     media_body=MediaFileUpload('thumbnail.png')                                                     #thumbnail being used
-                ).execute()
+                ).execute()                                                                                         #Execute the thumbnail
 
 
 
@@ -287,59 +287,57 @@ def post(): #function to check if the set time has passed, and then post on vari
                     client.create_tweet(text=video_title,media_ids=file_path) #post a tweet, with the title and video
             if instacb.get(): #posts video on instagram
                 '''
-                Start of Shri's Code
+                Start of Shrinithi's Code
                 '''
                 # Create a new instance of the Edge driver
                 driver = webdriver.Edge()
 
                 # Navigate to Instagram website
                 driver.get("https://www.instagram.com/")                             
-                time.sleep(5)
+                time.sleep(10) #wait for the page to load
 
-                # Press the tab key 2 times
+                # Press the tab key 2 times to move to the email field
                 for i in range(2):
                     pyautogui.press('tab')
 
-                pyautogui.typewrite(INSTAGRAM_EMAIL)
-                pyautogui.press('tab')
-                pyautogui.typewrite(INSTAGRAM_PASSWORD)
-                pyautogui.press('enter')
+                pyautogui.typewrite(INSTAGRAM_EMAIL) #type in the email
+                pyautogui.press('tab') #press tab to move to the password field
+                pyautogui.typewrite(INSTAGRAM_PASSWORD) #type in the password
+                pyautogui.press('enter') #press enter to login
 
-                time.sleep(10)
-                # press the tab key 8 times
+                time.sleep(10) #wait for the page to load
+                # press the tab key 8 times to navigate to the create button
                 for i in range(8):
                     pyautogui.press('tab')
-                time.sleep(2)
-                pyautogui.press('enter')
-                time.sleep(10)
+                time.sleep(2) #wait for the page to load
+                pyautogui.press('enter') #press enter to create a post
+                time.sleep(10) #wait for the page to load
 
-
-                # Find the file input element and send the file path
-                pyautogui.press('tab')
+                pyautogui.press('tab') #press tab to move to the file input element
                 time.sleep(2)
-                pyautogui.press('enter')
+                pyautogui.press('enter') #press enter to open the file explorer
                 time.sleep(2)
-                pyautogui.hotkey('command', 'shift', 'g')
+                pyautogui.hotkey('command', 'shift', 'g') #open the go to folder dialog
                 time.sleep(2)
-                pyautogui.typewrite(file_path)
+                pyautogui.typewrite(file_path) #type in the file path
                 time.sleep(2)
-                pyautogui.press('enter')
+                pyautogui.press('enter') #press enter to open the file
                 time.sleep(2)
-                for i in range(2):
+                for i in range(2): #press tab 2 times to move to the next button
                     pyautogui.press('tab')
                     pyautogui.press('tab')
                     pyautogui.press('enter')
                     time.sleep(2)
-                for i in range(5):
+                for i in range(5): #press tab 5 times to move to the caption field
                     pyautogui.press('tab')
-                pyautogui.typewrite(video_caption)
-                pyautogui.hotkey('shift', 'tab')
-                pyautogui.hotkey('shift', 'tab')
-                pyautogui.press('enter')
+                pyautogui.typewrite(video_caption) #type in the caption
+                pyautogui.hotkey('shift', 'tab') #press shift + tab to move to the next button
+                pyautogui.hotkey('shift', 'tab') #press shift + tab to move to the next button
+                pyautogui.press('enter') #press enter to post the video
 
-                time.sleep(15)
+                time.sleep(15) #wait for the page to load
                 '''
-                End of Shri's Code
+                End of Shrinithi's Code
                 '''
             if tiktokcb.get(): #posts video on tiktok
                 # Create a new instance of the Edge driver
@@ -667,9 +665,9 @@ def go_post(): #this is every other line of code in this file (excluding library
                             break
 
                         time.sleep(10)
-                        response_update_video = service.videos().list(id=video_id, part='status').execute()
-                        update_video_body = response_update_video['items'][0]
-                        counter += 1 
+                        response_update_video = service.videos().list(id=video_id, part='status').execute()            #make api get video status
+                        update_video_body = response_update_video['items'][0]                                          #update video body
+                        counter += 1                                                                                   #increment counter
                         '''
                         End of Jonathan's code
                         '''                                                                                   #Checks again every period of time 
@@ -681,7 +679,7 @@ def go_post(): #this is every other line of code in this file (excluding library
                         client.create_tweet(text=video_title,media_ids=file_path) #post a tweet, with the title and video
                 if instacb.get(): #posts video on instagram
                     '''
-                    Start of Shri's Code
+                    Start of Shrinithi's Code
                     '''
                     # Create a new instance of the Edge driver
                     driver = webdriver.Edge()
@@ -719,12 +717,12 @@ def go_post(): #this is every other line of code in this file (excluding library
                     time.sleep(2)
                     pyautogui.press('enter') #press enter to open the file
                     time.sleep(2)
-                    for i in range(2): 
+                    for i in range(2): #press tab 2 times to navigate to the next button
                         pyautogui.press('tab')
                         pyautogui.press('tab')
                         pyautogui.press('enter')
                         time.sleep(2)
-                    for i in range(5): #press tab 5 times to navigate to the next button
+                    for i in range(5): #press tab 5 times to navigate to the caption field
                         pyautogui.press('tab')
                     pyautogui.typewrite(video_caption) #type in the caption
                     pyautogui.hotkey('shift', 'tab')   #press shift tab to navigate to the next button
@@ -733,7 +731,7 @@ def go_post(): #this is every other line of code in this file (excluding library
 
                     time.sleep(15) #wait 15 seconds for page to load
                     '''
-                    End of Shri's Code
+                    End of Shrinithi's Code
                     '''
                 if tiktokcb.get(): #posts video on tiktok
                     # Create a new instance of the Edge driver

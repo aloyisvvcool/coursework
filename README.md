@@ -1,3 +1,7 @@
+###### To view this page in Markdown, open [https://echo.notable.app/434f61e80f21a21b661cca27a802adffb4dff46185c00f03e203ff06a856ef79](https://echo.notable.app/434f61e80f21a21b661cca27a802adffb4dff46185c00f03e203ff06a856ef79) in your preferred browser
+
+---
+
 # Sociable
 
 ###### Sociable is a Python program that allows you to create and schedule social media posts on Twitter, TikTok, Instagram, and YouTube - currently streamlined for MacOS only
@@ -81,3 +85,6 @@ python3 app.py
 #### The App might appear to be frozen until the selected media is posted - please do not quit the app unless it is frozen due to another issue
 
 ###### This project does not require a license
+
+2023 Computing+ Coursework: Sociable - A Social Media Posting App
+By: Aloysius (S4-01), Shrinithi (S4-01), Jonathan (S4-07)

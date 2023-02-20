@@ -8,7 +8,7 @@ Note: Twitter posting will not work after 9 Feb 2023 since Twitter has made the 
 
 Code done by Jonathan and Shri are indicated at the start and end of their respective parts
 Other lines (except importing of packages & libraries) are done by Aloysius
-Comments are written by authors of the portion of the code
+Comments are written by all 3 of us
 
 '''
 
@@ -433,7 +433,7 @@ def go_settings():
     heading = customtkinter.CTkLabel(master=frame_2, justify=tkinter.LEFT, text='Settings', font=('Helvetica', 30)) #creates the heading of the page as a label
     heading.place(x=230,y=10) #places the heading label
 
-    textbox_TWITTER_ACCESS_KEY = customtkinter.CTkEntry(master=frame_2,width=400, placeholder_text="Twitter Access Key") #create the textboxs for the various account credentials and places them
+    textbox_TWITTER_ACCESS_KEY = customtkinter.CTkEntry(master=frame_2,width=400, placeholder_text="Twitter Access Key") #create the textboxes for the various account credentials and places them
     textbox_TWITTER_ACCESS_KEY.place(x=70,y=140)
     textbox_TWITTER_ACCESS_SECRET = customtkinter.CTkEntry(master=frame_2,width=400, placeholder_text="Twitter Access Secret")
     textbox_TWITTER_ACCESS_SECRET.place(x=70,y=180)
@@ -688,50 +688,50 @@ def go_post(): #this is every other line of code in this file (excluding library
 
                     # Navigate to Instagram website
                     driver.get("https://www.instagram.com/")                             
-                    time.sleep(5)
+                    time.sleep(10) #wait 10 seconds for page to load
 
                     # Press the tab key 2 times
                     for i in range(2):
-                        pyautogui.press('tab')
+                        pyautogui.press('tab') #press tab to navigate to email field
 
-                    pyautogui.typewrite(INSTAGRAM_EMAIL)
-                    pyautogui.press('tab')
-                    pyautogui.typewrite(INSTAGRAM_PASSWORD)
-                    pyautogui.press('enter')
+                    pyautogui.typewrite(INSTAGRAM_EMAIL) #type in email
+                    pyautogui.press('tab') #press tab
+                    pyautogui.typewrite(INSTAGRAM_PASSWORD) #type in password
+                    pyautogui.press('enter') #press enter to login
 
-                    time.sleep(10)
-                    # press the tab key 8 times
+                    time.sleep(10) #wait 10 seconds for page to load
+                    # press the tab key 8 times to navigate to the create post button
                     for i in range(8):
                         pyautogui.press('tab')
                     time.sleep(2)
-                    pyautogui.press('enter')
+                    pyautogui.press('enter') #press enter to create post
                     time.sleep(10)
 
 
                     # Find the file input element and send the file path
-                    pyautogui.press('tab')
+                    pyautogui.press('tab') #press tab to navigate to file input element
                     time.sleep(2)
-                    pyautogui.press('enter')
+                    pyautogui.press('enter') #press enter to upload video
                     time.sleep(2)
-                    pyautogui.hotkey('command', 'shift', 'g')
+                    pyautogui.hotkey('command', 'shift', 'g') #open the go to folder window
                     time.sleep(2)
-                    pyautogui.typewrite(file_path)
+                    pyautogui.typewrite(file_path) #type in the file path
                     time.sleep(2)
-                    pyautogui.press('enter')
+                    pyautogui.press('enter') #press enter to open the file
                     time.sleep(2)
-                    for i in range(2):
+                    for i in range(2): 
                         pyautogui.press('tab')
                         pyautogui.press('tab')
                         pyautogui.press('enter')
                         time.sleep(2)
-                    for i in range(5):
+                    for i in range(5): #press tab 5 times to navigate to the next button
                         pyautogui.press('tab')
-                    pyautogui.typewrite(video_caption)
-                    pyautogui.hotkey('shift', 'tab')
-                    pyautogui.hotkey('shift', 'tab')
-                    pyautogui.press('enter')
+                    pyautogui.typewrite(video_caption) #type in the caption
+                    pyautogui.hotkey('shift', 'tab')   #press shift tab to navigate to the next button
+                    pyautogui.hotkey('shift', 'tab')  #press shift tab to navigate to the next button
+                    pyautogui.press('enter') #press enter to post the video
 
-                    time.sleep(15)
+                    time.sleep(15) #wait 15 seconds for page to load
                     '''
                     End of Shri's Code
                     '''
@@ -790,13 +790,13 @@ def go_post(): #this is every other line of code in this file (excluding library
 
         def updatekeys(): #function to update account information in the file
             TWITTER_ACCESS_KEY = textbox_TWITTER_ACCESS_KEY.get() #assigns the information in the textbox to a corresponding variable
-            TWITTER_ACCESS_SECRET = textbox_TWITTER_ACCESS_SECRET.get()
-            TWITTER_CONSUMER_KEY = textbox_TWITTER_CONSUMER_KEY.get()
-            TWITTER_CONSUMER_SECRET = textbox_TWITTER_ACCESS_SECRET.get()
-            TIKTOK_EMAIL = textbox_TIKTOK_EMAIL.get()
-            TIKTOK_PASSWORD = textbox_TIKTOK_PASSWORD.get()
-            INSTAGRAM_EMAIL = textbox_INSTAGRAM_EMAIL.get()
-            INSTAGRAM_PASSWORD = textbox_INSTAGRAM_PASSWORD.get()
+            TWITTER_ACCESS_SECRET = textbox_TWITTER_ACCESS_SECRET.get() #same for twitter access secret
+            TWITTER_CONSUMER_KEY = textbox_TWITTER_CONSUMER_KEY.get() #same for twitter consumer key
+            TWITTER_CONSUMER_SECRET = textbox_TWITTER_ACCESS_SECRET.get() #same for twitter consumer secret
+            TIKTOK_EMAIL = textbox_TIKTOK_EMAIL.get() #same for tiktok email
+            TIKTOK_PASSWORD = textbox_TIKTOK_PASSWORD.get() #same for tiktok password
+            INSTAGRAM_EMAIL = textbox_INSTAGRAM_EMAIL.get() #same for instagram email
+            INSTAGRAM_PASSWORD = textbox_INSTAGRAM_PASSWORD.get() #same for instagram password
             all_info = [
                 TWITTER_ACCESS_KEY,
                 TWITTER_ACCESS_SECRET,
@@ -806,7 +806,7 @@ def go_post(): #this is every other line of code in this file (excluding library
                 TIKTOK_PASSWORD,
                 INSTAGRAM_EMAIL,
                 INSTAGRAM_PASSWORD
-            ]
+            ] #creates a list of all the information
             key = Fernet.generate_key() #key generation, generates new keys each time
             fernet = Fernet(key) #cast key to fernet type
             
@@ -827,23 +827,23 @@ def go_post(): #this is every other line of code in this file (excluding library
         heading = customtkinter.CTkLabel(master=frame_2, justify=tkinter.LEFT, text='Settings', font=('Helvetica', 30)) #creates the heading of the page as a label
         heading.place(x=230,y=10) #places the heading label
 
-        textbox_TWITTER_ACCESS_KEY = customtkinter.CTkEntry(master=frame_2,width=400, placeholder_text="Twitter Access Key") #create the textboxs for the various account credentials and places them
+        textbox_TWITTER_ACCESS_KEY = customtkinter.CTkEntry(master=frame_2,width=400, placeholder_text="Twitter Access Key") #create the textboxes for the various account credentials and places them
         textbox_TWITTER_ACCESS_KEY.place(x=70,y=140)
-        textbox_TWITTER_ACCESS_SECRET = customtkinter.CTkEntry(master=frame_2,width=400, placeholder_text="Twitter Access Secret")
+        textbox_TWITTER_ACCESS_SECRET = customtkinter.CTkEntry(master=frame_2,width=400, placeholder_text="Twitter Access Secret") #same for twitter access secret    
         textbox_TWITTER_ACCESS_SECRET.place(x=70,y=180)
-        textbox_TWITTER_CONSUMER_KEY = customtkinter.CTkEntry(master=frame_2,width=400, placeholder_text="Twitter Consumer Key")
+        textbox_TWITTER_CONSUMER_KEY = customtkinter.CTkEntry(master=frame_2,width=400, placeholder_text="Twitter Consumer Key") #same for twitter consumer key
         textbox_TWITTER_CONSUMER_KEY.place(x=70,y=220)
-        textbox_TWITTER_CONSUMER_SECRET = customtkinter.CTkEntry(master=frame_2,width=400, placeholder_text="Twitter Consumer Secret")
+        textbox_TWITTER_CONSUMER_SECRET = customtkinter.CTkEntry(master=frame_2,width=400, placeholder_text="Twitter Consumer Secret") #same for twitter consumer secret
         textbox_TWITTER_CONSUMER_SECRET.place(x=70,y=260)
-        textbox_TIKTOK_EMAIL = customtkinter.CTkEntry(master=frame_2,width=400, placeholder_text="Tiktok Email")
+        textbox_TIKTOK_EMAIL = customtkinter.CTkEntry(master=frame_2,width=400, placeholder_text="Tiktok Email") #same for tiktok email
         textbox_TIKTOK_EMAIL.place(x=70,y=300)
-        textbox_TIKTOK_PASSWORD = customtkinter.CTkEntry(master=frame_2,width=400, placeholder_text="Tiktok Password")
+        textbox_TIKTOK_PASSWORD = customtkinter.CTkEntry(master=frame_2,width=400, placeholder_text="Tiktok Password") #same for tiktok password
         textbox_TIKTOK_PASSWORD.place(x=70,y=340)
-        textbox_INSTAGRAM_EMAIL = customtkinter.CTkEntry(master=frame_2,width=400, placeholder_text="Instagram Email")
+        textbox_INSTAGRAM_EMAIL = customtkinter.CTkEntry(master=frame_2,width=400, placeholder_text="Instagram Email") #same for instagram email
         textbox_INSTAGRAM_EMAIL.place(x=70,y=380)
-        textbox_INSTAGRAM_PASSWORD = customtkinter.CTkEntry(master=frame_2,width=400, placeholder_text="Instagram Password")
+        textbox_INSTAGRAM_PASSWORD = customtkinter.CTkEntry(master=frame_2,width=400, placeholder_text="Instagram Password") #same for instagram password
         textbox_INSTAGRAM_PASSWORD.place(x=70,y=420)
-        updateinfo = customtkinter.CTkButton(master=frame_2, command=updatekeys, text='Update Information')
+        updateinfo = customtkinter.CTkButton(master=frame_2, command=updatekeys, text='Update Information') #creates the button to update the information
         updateinfo.place(x=70,y=540)
 
         post = customtkinter.CTkButton(master=frame_2, command=go_post, text='Schedule Post') #creates the button to go back to posting page
@@ -855,34 +855,34 @@ def go_post(): #this is every other line of code in this file (excluding library
 
     title_entry = customtkinter.CTkEntry(master=frame_1, placeholder_text="Title") #creates various labels and their respective textboxes and buttons
     title_entry.place(x=300,y=70)
-    title_confirm = customtkinter.CTkButton(master=frame_1, command=titleadd, text='Choose Title')
+    title_confirm = customtkinter.CTkButton(master=frame_1, command=titleadd, text='Choose Title') #creates the button to add the title
     title_confirm.place(x=300,y=110)
-    caption_entry = customtkinter.CTkTextbox(master=frame_1, height=200)
+    caption_entry = customtkinter.CTkTextbox(master=frame_1, height=200) #creates the textbox for the description
     caption_entry.place(x=300,y=160)
-    caption_confirm = customtkinter.CTkButton(master=frame_1, command=descriptionadd, text='Choose Description')
+    caption_confirm = customtkinter.CTkButton(master=frame_1, command=descriptionadd, text='Choose Description') #creates the button to add the description
     caption_confirm.place(x=300,y=370)
-    time_entry = customtkinter.CTkEntry(master=frame_1, placeholder_text="HHMM")
+    time_entry = customtkinter.CTkEntry(master=frame_1, placeholder_text="HHMM") #creates the textbox for the time
     time_entry.place(x=300,y=420)
-    time_confirm = customtkinter.CTkButton(master=frame_1, command=timeadd, text='Add Time')
+    time_confirm = customtkinter.CTkButton(master=frame_1, command=timeadd, text='Add Time') #creates the button to add the time
     time_confirm.place(x=300,y=460)
-    date_entry = customtkinter.CTkEntry(master=frame_1, placeholder_text="DDMMYYYY")
+    date_entry = customtkinter.CTkEntry(master=frame_1, placeholder_text="DDMMYYYY") #creates the textbox for the date
     date_entry.place(x=300,y=510)
-    date_confirm = customtkinter.CTkButton(master=frame_1, command=dateadd, text='Add Date')
+    date_confirm = customtkinter.CTkButton(master=frame_1, command=dateadd, text='Add Date') #creates the button to add the date
     date_confirm.place(x=300,y=550)
-    file_select = customtkinter.CTkButton(master=frame_1, command=choose_file, text='Select Video File')
+    file_select = customtkinter.CTkButton(master=frame_1, command=choose_file, text='Select Video File') #creates the button to select the video file
     file_select.place(x=300,y=590)
-    post_button = customtkinter.CTkButton(master=frame_1, command=post, text='Schedule!')
+    post_button = customtkinter.CTkButton(master=frame_1, command=post, text='Schedule!') #creates the button to schedule the post
     post_button.place(x=300,y=630)
-    heading = customtkinter.CTkLabel(master=frame_1, justify=tkinter.LEFT, text='New Post', font=('Helvetica', 30))
+    heading = customtkinter.CTkLabel(master=frame_1, justify=tkinter.LEFT, text='New Post', font=('Helvetica', 30)) #creates the heading label
     heading.place(x=230,y=10)
 
     youtubecb = customtkinter.CTkCheckBox(master=frame_1, command=youtubecheck, text='Youtube', font=('Helvetica', 20)) #creates various checkboxes and their respective platform names
     youtubecb.place(x=70,y=70)
-    twittercb = customtkinter.CTkCheckBox(master=frame_1, command=twittercheck, text='Twitter', font=('Helvetica', 20))
+    twittercb = customtkinter.CTkCheckBox(master=frame_1, command=twittercheck, text='Twitter', font=('Helvetica', 20)) #same for twitter
     twittercb.place(x=70,y=120)
-    tiktokcb = customtkinter.CTkCheckBox(master=frame_1, command=tiktokcheck, text='Tiktok', font=('Helvetica', 20))
+    tiktokcb = customtkinter.CTkCheckBox(master=frame_1, command=tiktokcheck, text='Tiktok', font=('Helvetica', 20)) #same for tiktok
     tiktokcb.place(x=70,y=170)
-    instacb = customtkinter.CTkCheckBox(master=frame_1, command=instacheck, text='Instagram', font=('Helvetica', 20))
+    instacb = customtkinter.CTkCheckBox(master=frame_1, command=instacheck, text='Instagram', font=('Helvetica', 20)) #same for instagram
     instacb.place(x=70,y=220)
 
     settings = customtkinter.CTkButton(master=frame_1, command=go_settings, text='Settings') #creates the button to go to the settings page
@@ -893,21 +893,21 @@ def go_post(): #this is every other line of code in this file (excluding library
 frame_1 = customtkinter.CTkFrame(master=app) #creates the page frame for the posting page
 frame_1.pack(pady=20, padx=60, fill="both", expand=True)
 
-title_entry = customtkinter.CTkEntry(master=frame_1, placeholder_text="Title") #creates various labels and their respective textboxes and buttons
+title_entry = customtkinter.CTkEntry(master=frame_1, placeholder_text="Title") #creates 
 title_entry.place(x=300,y=70)
-title_confirm = customtkinter.CTkButton(master=frame_1, command=titleadd, text='Choose Title')
+title_confirm = customtkinter.CTkButton(master=frame_1, command=titleadd, text='Choose Title') #creates the button to add the title
 title_confirm.place(x=300,y=110)
-caption_entry = customtkinter.CTkTextbox(master=frame_1, height=200)
+caption_entry = customtkinter.CTkTextbox(master=frame_1, height=200) #creates the textbox for the description
 caption_entry.place(x=300,y=160)
-caption_confirm = customtkinter.CTkButton(master=frame_1, command=descriptionadd, text='Choose Description')
+caption_confirm = customtkinter.CTkButton(master=frame_1, command=descriptionadd, text='Choose Description') #creates the button to add the description
 caption_confirm.place(x=300,y=370)
-time_entry = customtkinter.CTkEntry(master=frame_1, placeholder_text="HHMM")
+time_entry = customtkinter.CTkEntry(master=frame_1, placeholder_text="HHMM") #creates the textbox for the time
 time_entry.place(x=300,y=420)
-time_confirm = customtkinter.CTkButton(master=frame_1, command=timeadd, text='Add Time')
+time_confirm = customtkinter.CTkButton(master=frame_1, command=timeadd, text='Add Time')  #creates the button to add the time
 time_confirm.place(x=300,y=460)
-date_entry = customtkinter.CTkEntry(master=frame_1, placeholder_text="DDMMYYYY")
+date_entry = customtkinter.CTkEntry(master=frame_1, placeholder_text="DDMMYYYY") #creates the textbox for the date
 date_entry.place(x=300,y=510)
-date_confirm = customtkinter.CTkButton(master=frame_1, command=dateadd, text='Add Date')
+date_confirm = customtkinter.CTkButton(master=frame_1, command=dateadd, text='Add Date') #creates the button to add the date
 date_confirm.place(x=300,y=550)
 file_select = customtkinter.CTkButton(master=frame_1, command=choose_file, text='Select Video File')
 file_select.place(x=300,y=590)

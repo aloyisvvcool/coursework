@@ -19,7 +19,7 @@ from googleapiclient.http import MediaFileUpload
 import pandas as pd
 import os
 
-def tobytes(x):
+def tobytes(x): #converts
     return bytes(x,'utf-8')
 
 texts = []
@@ -35,10 +35,8 @@ TWITTER_CONSUMER_KEY = fernet.decrypt(tobytes(texts[3])).decode()
 TWITTER_CONSUMER_SECRET = fernet.decrypt(tobytes(texts[4])).decode()
 TIKTOK_EMAIL = fernet.decrypt(tobytes(texts[5])).decode()
 TIKTOK_PASSWORD = fernet.decrypt(tobytes(texts[6])).decode()
-YOUTUBE_CLIENT = fernet.decrypt(tobytes(texts[7])).decode()
-YOUTUBE_SECRET = fernet.decrypt(tobytes(texts[8])).decode()
-INSTAGRAM_EMAIL = fernet.decrypt(tobytes(texts[9])).decode()
-INSTAGRAM_PASSWORD = fernet.decrypt(tobytes(texts[10])).decode()
+INSTAGRAM_EMAIL = fernet.decrypt(tobytes(texts[7])).decode()
+INSTAGRAM_PASSWORD = fernet.decrypt(tobytes(texts[8])).decode()
 video_title = None
 video_caption = None
 upload_time = None
@@ -408,8 +406,6 @@ def go_settings():
         TWITTER_CONSUMER_SECRET = textbox_TWITTER_ACCESS_SECRET.get()
         TIKTOK_EMAIL = textbox_TIKTOK_EMAIL.get()
         TIKTOK_PASSWORD = textbox_TIKTOK_PASSWORD.get()
-        YOUTUBE_CLIENT = textbox_YOUTUBE_CLIENT.get()
-        YOUTUBE_SECRET = textbox_YOUTUBE_SECRET.get()
         INSTAGRAM_EMAIL = textbox_INSTAGRAM_EMAIL.get()
         INSTAGRAM_PASSWORD = textbox_INSTAGRAM_PASSWORD.get()
         all_info = [
@@ -419,8 +415,6 @@ def go_settings():
             TWITTER_CONSUMER_SECRET,
             TIKTOK_EMAIL,
             TIKTOK_PASSWORD,
-            YOUTUBE_CLIENT,
-            YOUTUBE_SECRET,
             INSTAGRAM_EMAIL,
             INSTAGRAM_PASSWORD
         ]
@@ -446,14 +440,10 @@ def go_settings():
     textbox_TIKTOK_EMAIL.place(x=70,y=300)
     textbox_TIKTOK_PASSWORD = customtkinter.CTkEntry(master=frame_2,width=400, placeholder_text="Tiktok Password")
     textbox_TIKTOK_PASSWORD.place(x=70,y=340)
-    textbox_YOUTUBE_CLIENT = customtkinter.CTkEntry(master=frame_2,width=400, placeholder_text="Youtube Client")
-    textbox_YOUTUBE_CLIENT.place(x=70,y=380)
-    textbox_YOUTUBE_SECRET = customtkinter.CTkEntry(master=frame_2,width=400, placeholder_text="Youtube Secret")
-    textbox_YOUTUBE_SECRET.place(x=70,y=420)
     textbox_INSTAGRAM_EMAIL = customtkinter.CTkEntry(master=frame_2,width=400, placeholder_text="Instagram Email")
-    textbox_INSTAGRAM_EMAIL.place(x=70,y=460)
+    textbox_INSTAGRAM_EMAIL.place(x=70,y=380)
     textbox_INSTAGRAM_PASSWORD = customtkinter.CTkEntry(master=frame_2,width=400, placeholder_text="Instagram Password")
-    textbox_INSTAGRAM_PASSWORD.place(x=70,y=500)
+    textbox_INSTAGRAM_PASSWORD.place(x=70,y=420)
     updateinfo = customtkinter.CTkButton(master=frame_2, command=updatekeys, text='Update Information')
     updateinfo.place(x=70,y=540)
 
@@ -499,14 +489,16 @@ def go_post(): #this is just every other line of code in this file (excluding li
         caption=customtkinter.CTkLabel(app, text=f'Caption: {caption_name}', font=('Helvetica', 15))
         caption.place(x=70,y=430)
         captionadded = True
-        
+            
     timeadded = False
     def timeadd():
+        global upload_time
         time_str = time_entry.get()
         if not time_str.isdigit() or len(time_str) != 4:
             raise ValueError("Input should be a 4-digit time string in the format 'HHMM'")
         hour = int(time_str[:2])
         minute = int(time_str[2:])
+        '''
         if hour == 0:
             hour = 12
             am_pm = "AM"
@@ -517,28 +509,34 @@ def go_post(): #this is just every other line of code in this file (excluding li
         else:
             hour -= 12
             am_pm = "PM"
-        formatted_time = f"{hour}:{minute:02d} {am_pm}"
+        '''
+        formatted_time = f"{hour}:{minute:02d}"
 
         global timeadded
         if timeadded == True:
-            destroy_time = lambda: time.destroy()
+            destroy_time = lambda: timevar.destroy()
             destroy_time()
-        formatted_time = f"{hour}:{minute:02d} {am_pm}"
-        global time
-        time=customtkinter.CTkLabel(app, text=f'Time: {formatted_time}', font=('Helvetica', 15))
-        time.place(x=70,y=330)
+        formatted_time = f"{hour}:{minute:02d}"
+        upload_time = formatted_time
+        global timevar
+        timevar=customtkinter.CTkLabel(app, text=f'Time: {formatted_time}', font=('Helvetica', 15))
+        timevar.place(x=70,y=330)
         timeadded = True
 
     dateadded = False
     def dateadd():
-        date_string = datetime.strptime(date_entry.get(), '%d%m%Y').strftime('%d %B %Y')
-        print(date_string)
+        global upload_date
+        day = date_entry.get()[:2]
+        month = date_entry.get()[2:4]
+        year = date_entry.get()[4:]
+        upload_date = f"{day}/{month}/{year}"
+        print(upload_date)
         global dateadded
         if dateadded == True:
             destroy_date = lambda: date.destroy()
             destroy_date()
         global date
-        date=customtkinter.CTkLabel(app, text=f'Date: {date_string}', font=('Helvetica', 15))
+        date=customtkinter.CTkLabel(app, text=f'Date: {upload_date}', font=('Helvetica', 15))
         date.place(x=70,y=360)
         dateadded = True
 
@@ -558,9 +556,10 @@ def go_post(): #this is just every other line of code in this file (excluding li
         fileadded = True
 
     def post():
-        date_time_str = upload_date + " " + upload_time
+        global upload_date
+        global upload_time
+        date_time_str = str(upload_date) + " " + str(upload_time)
         end_time = time.strptime(date_time_str, "%d/%m/%Y %H:%M")
-
         while True:
             current_time = time.localtime()
             if current_time >= end_time:
@@ -777,9 +776,8 @@ def go_post(): #this is just every other line of code in this file (excluding li
                         pyautogui.press('tab')
                     pyautogui.press('enter')
                     time.sleep(10)
-
+                time.sleep(60)
                 break
-            time.sleep(60)
 
     def go_settings():
         def dark_mode_toggle():
@@ -806,8 +804,6 @@ def go_post(): #this is just every other line of code in this file (excluding li
             TWITTER_CONSUMER_SECRET = textbox_TWITTER_ACCESS_SECRET.get()
             TIKTOK_EMAIL = textbox_TIKTOK_EMAIL.get()
             TIKTOK_PASSWORD = textbox_TIKTOK_PASSWORD.get()
-            YOUTUBE_CLIENT = textbox_YOUTUBE_CLIENT.get()
-            YOUTUBE_SECRET = textbox_YOUTUBE_SECRET.get()
             INSTAGRAM_EMAIL = textbox_INSTAGRAM_EMAIL.get()
             INSTAGRAM_PASSWORD = textbox_INSTAGRAM_PASSWORD.get()
             all_info = [
@@ -817,8 +813,6 @@ def go_post(): #this is just every other line of code in this file (excluding li
                 TWITTER_CONSUMER_SECRET,
                 TIKTOK_EMAIL,
                 TIKTOK_PASSWORD,
-                YOUTUBE_CLIENT,
-                YOUTUBE_SECRET,
                 INSTAGRAM_EMAIL,
                 INSTAGRAM_PASSWORD
             ]
@@ -844,19 +838,16 @@ def go_post(): #this is just every other line of code in this file (excluding li
         textbox_TIKTOK_EMAIL.place(x=70,y=300)
         textbox_TIKTOK_PASSWORD = customtkinter.CTkEntry(master=frame_2,width=400, placeholder_text="Tiktok Password")
         textbox_TIKTOK_PASSWORD.place(x=70,y=340)
-        textbox_YOUTUBE_CLIENT = customtkinter.CTkEntry(master=frame_2,width=400, placeholder_text="Youtube Client")
-        textbox_YOUTUBE_CLIENT.place(x=70,y=380)
-        textbox_YOUTUBE_SECRET = customtkinter.CTkEntry(master=frame_2,width=400, placeholder_text="Youtube Secret")
-        textbox_YOUTUBE_SECRET.place(x=70,y=420)
         textbox_INSTAGRAM_EMAIL = customtkinter.CTkEntry(master=frame_2,width=400, placeholder_text="Instagram Email")
-        textbox_INSTAGRAM_EMAIL.place(x=70,y=460)
+        textbox_INSTAGRAM_EMAIL.place(x=70,y=380)
         textbox_INSTAGRAM_PASSWORD = customtkinter.CTkEntry(master=frame_2,width=400, placeholder_text="Instagram Password")
-        textbox_INSTAGRAM_PASSWORD.place(x=70,y=500)
+        textbox_INSTAGRAM_PASSWORD.place(x=70,y=420)
         updateinfo = customtkinter.CTkButton(master=frame_2, command=updatekeys, text='Update Information')
         updateinfo.place(x=70,y=540)
 
         post = customtkinter.CTkButton(master=frame_2, command=go_post, text='Schedule Post')
         post.place(x=450,y=600)
+
 
     frame_2.destroy()
     frame_1 = customtkinter.CTkFrame(master=app)

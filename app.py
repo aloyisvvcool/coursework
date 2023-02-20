@@ -47,7 +47,7 @@ customtkinter.set_default_color_theme("blue")
 
 app = customtkinter.CTk()
 app.geometry("720x720")
-app.title("APP")
+app.title("Sociable")
 
 def convert_number_to_date(number):
     date_string = datetime.strptime(number, '%d%m%Y').strftime('%d %B %Y')

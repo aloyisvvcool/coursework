@@ -8,6 +8,7 @@ Please ensure that all required packages & libraries are installed before runnin
 Note: Twitter posting will not work after 9 Feb 2023 since Twitter has made the Twitter API a paid service (https://developer.twitter.com/en/docs/twitter-api/getting-started/about-twitter-api).
 
 Code done by Jonathan and Shrinithi are indicated at the start and end of their respective parts.
+README.md done by Shrinithi
 Other lines (except importing of packages & libraries) are done by Aloysius.
 
 '''

@@ -1,17 +1,28 @@
-import tkinter
+'''
+2023 Computing+ Coursework: Sociable
+By: Aloysius (S4-01), Shrinithi (S4-01), Jonathan (S4=07)
+
+Please read the readme and ensure that all required packages & libraries are installed
+Note: Twitter posting will not work after 9 Feb 2023 since Twitter has made the Twitter API a paid service
+
+Code done by Jonathan and Shri are indicated at the start and end of their respective parts
+Other lines (except importing of packages & libraries) are done by Aloysius
+'''
+
+import tkinter  #tkinter and customtkinter are used for the app GUI
 import customtkinter
-from datetime import datetime
 from tkinter import filedialog as fd
-from selenium import webdriver
+from datetime import datetime   #time and datetime are used to check for time needed for posting
+import time
+from selenium import webdriver  #Selenium and pyautogui are used for posting on Tiktok and Instagram
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 import pyautogui
-import time
-import tweepy
-from cryptography.fernet import Fernet
-from google_auth_oauthlib.flow import InstalledAppFlow
+import tweepy   #used for Twitter posting. Has been deactivated since Feb 9 2023 when Twitter API was a made paid service :(
+from cryptography.fernet import Fernet  #used for encrypting and decrypting passwords and other sensitive details
+from google_auth_oauthlib.flow import InstalledAppFlow  #Google packages, pandas and os are needed for YouTUbe posting
 from googleapiclient.discovery import build
 from google.oauth2.credentials import Credentials
 from google.auth.transport.requests import Request
@@ -19,7 +30,7 @@ from googleapiclient.http import MediaFileUpload
 import pandas as pd
 import os
 
-def tobytes(x): #converts
+def tobytes(x): #function to create bytes
     return bytes(x,'utf-8')
 
 texts = []
@@ -29,7 +40,7 @@ with open('textinfo.txt','r') as f:
 key = tobytes(texts[0])
 fernet = Fernet(key) #casts key to needed type
 
-TWITTER_ACCESS_KEY = fernet.decrypt(tobytes(texts[1])).decode() #creates usable strings
+TWITTER_ACCESS_KEY = fernet.decrypt(tobytes(texts[1])).decode() #creates usable strings from the encoded file
 TWITTER_ACCESS_SECRET = fernet.decrypt(tobytes(texts[2])).decode()
 TWITTER_CONSUMER_KEY = fernet.decrypt(tobytes(texts[3])).decode()
 TWITTER_CONSUMER_SECRET = fernet.decrypt(tobytes(texts[4])).decode()
@@ -37,11 +48,11 @@ TIKTOK_EMAIL = fernet.decrypt(tobytes(texts[5])).decode()
 TIKTOK_PASSWORD = fernet.decrypt(tobytes(texts[6])).decode()
 INSTAGRAM_EMAIL = fernet.decrypt(tobytes(texts[7])).decode()
 INSTAGRAM_PASSWORD = fernet.decrypt(tobytes(texts[8])).decode()
-video_title = None
+video_title = None  #These 5 variables are initialised, but should be changed later on
 video_caption = None
 upload_time = None
 upload_date = None
-file_path = None #initialised just so tiktok posting can run, should be changed later on
+file_path = None
 customtkinter.set_appearance_mode("dark")  #this gets changed in the app
 customtkinter.set_default_color_theme("blue")
 
@@ -166,6 +177,9 @@ def post():
         current_time = time.localtime()
         if current_time >= end_time:
             if youtubecb.get(): #youtube code here
+                '''
+                Start of Jonathan's Code
+                '''
                 def create_service(client_secret_file, api_name, api_version, *scopes, prefix=''):
                     CLIENT_SECRET_FILE = client_secret_file
                     API_SERVICE_NAME = api_name
@@ -269,7 +283,10 @@ def post():
                     time.sleep(10)
                     response_update_video = service.videos().list(id=video_id, part='status').execute()
                     update_video_body = response_update_video['items'][0]
-                    counter += 1                                                                                    #Checks again every period of time 
+                    counter += 1 
+                    '''
+                    End of Jonathan's code
+                    '''                                                                                   #Checks again every period of time 
             if twittercb.get(): #twitter code here
                     client = tweepy.Client(access_token=TWITTER_ACCESS_KEY,
                             access_token_secret=TWITTER_ACCESS_SECRET,
@@ -277,6 +294,9 @@ def post():
                             consumer_secret=TWITTER_CONSUMER_SECRET)
                     client.create_tweet(text=video_title,media_ids=file_path)
             if instacb.get():
+                '''
+                Start of Shri's Code
+                '''
                 # Create a new instance of the Edge driver
                 driver = webdriver.Edge()
 
@@ -326,6 +346,9 @@ def post():
                 pyautogui.press('enter')
 
                 time.sleep(15)
+                '''
+                End of Shri's Code
+                '''
             if tiktokcb.get():
                 # Create a new instance of the Edge driver
                 driver = webdriver.Edge()
@@ -564,6 +587,9 @@ def go_post(): #this is just every other line of code in this file (excluding li
             current_time = time.localtime()
             if current_time >= end_time:
                 if youtubecb.get(): #youtube code here
+                    '''
+                    Start of Jonathan's Code
+                    '''
                     def create_service(client_secret_file, api_name, api_version, *scopes, prefix=''):
                         CLIENT_SECRET_FILE = client_secret_file
                         API_SERVICE_NAME = api_name
@@ -667,7 +693,10 @@ def go_post(): #this is just every other line of code in this file (excluding li
                         time.sleep(10)
                         response_update_video = service.videos().list(id=video_id, part='status').execute()
                         update_video_body = response_update_video['items'][0]
-                        counter += 1                                                                                    #Checks again every period of time 
+                        counter += 1  
+                        '''
+                        End of Jonathan's Code
+                        '''                                                                                  #Checks again every period of time 
                 if twittercb.get(): #twitter code here
                         client = tweepy.Client(access_token=TWITTER_ACCESS_KEY,
                                 access_token_secret=TWITTER_ACCESS_SECRET,
@@ -675,6 +704,9 @@ def go_post(): #this is just every other line of code in this file (excluding li
                                 consumer_secret=TWITTER_CONSUMER_SECRET)
                         client.create_tweet(text=video_title,media_ids=file_path)
                 if instacb.get():
+                    '''
+                    Start of Shri's Code
+                    '''
                     # Create a new instance of the Edge driver
                     driver = webdriver.Edge()
 
@@ -724,6 +756,9 @@ def go_post(): #this is just every other line of code in this file (excluding li
                     pyautogui.press('enter')
 
                     time.sleep(15)
+                    '''
+                    End of Shri's Code
+                    '''
                 if tiktokcb.get():
                     # Create a new instance of the Edge driver
                     driver = webdriver.Edge()

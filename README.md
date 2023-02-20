@@ -1,4 +1,4 @@
-###### To view this page in Markdown, open [https://echo.notable.app/bdd153f98b9dc62a5d6cc2cd291b2545e6bb4e0f22a6454de8fcd12b729abcad](https://echo.notable.app/bdd153f98b9dc62a5d6cc2cd291b2545e6bb4e0f22a6454de8fcd12b729abcad) in your preferred browser
+###### To view this page in Markdown, open [https://echo.notable.app/19c62a8b871ed5d82b8a462c2a8aed581d531fd0bea45751f2dd8a8559d63a74](https://echo.notable.app/19c62a8b871ed5d82b8a462c2a8aed581d531fd0bea45751f2dd8a8559d63a74) in your preferred browser
 
 2023 Computing+ Coursework: Sociable - A Social Media Posting App
 By: Aloysius (S4-01), Shrinithi (S4-01), Jonathan (S4-07)
@@ -58,7 +58,7 @@ pip3 show tk==0.1.0 customtkinter==5.1.2 DateTime==5.0 selenium==4.8.2 PyAutoGUI
 
 #### The program uses Selenium and a web driver to interact with the social media platforms. Make sure you have the appropriate web drivers installed on your machine and update the file path for the TikTok post to run the program successfully
 
-##### This program also uses Youtube API directly from the channel/accounts's API, thus following the steps to save the required JSON file to the correctly location is important if you are looking to to use this for Youtube
+#### This program also uses Youtube API directly from the channel/accounts's API, thus following the steps to save the required JSON file to the correctly location is important if you are looking to to use this for Youtube
 
 ###### Alternatively, you can follow the steps from the ***[official documentation](https://developers.google.com/youtube/v3/quickstart/python)*** if you are still unclear on what you have to do
 

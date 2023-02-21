@@ -9,7 +9,7 @@ Note: Twitter posting will not work after 9 Feb 2023 since Twitter has made the 
 
 Code done by Jonathan and Shrinithi are indicated at the start and end of their respective parts.
 README.md done by Shrinithi
-Other lines (except importing of packages & libraries) are done by Aloysius.
+Other lines (except importing of packages & libraries) are done by Aloysius
 
 '''
 

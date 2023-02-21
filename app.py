@@ -395,7 +395,16 @@ def go_settings():
             customtkinter.set_appearance_mode("dark")
 
     def updatekeys(): #function to update account information in the file
-        TWITTER_ACCESS_KEY = textbox_TWITTER_ACCESS_KEY.get() #assigns the information in the textbox to a corresponding variable
+        global TWITTER_ACCESS_KEY
+        global TWITTER_ACCESS_SECRET
+        global TWITTER_CONSUMER_KEY
+        global TWITTER_CONSUMER_SECRET
+        global TIKTOK_EMAIL
+        global TIKTOK_PASSWORD
+        global INSTAGRAM_EMAIL
+        global INSTAGRAM_PASSWORD
+
+        TWITTER_ACCESS_KEY = textbox_TWITTER_ACCESS_KEY.get()
         TWITTER_ACCESS_SECRET = textbox_TWITTER_ACCESS_SECRET.get()
         TWITTER_CONSUMER_KEY = textbox_TWITTER_CONSUMER_KEY.get()
         TWITTER_CONSUMER_SECRET = textbox_TWITTER_ACCESS_SECRET.get()
@@ -790,6 +799,15 @@ def go_post(): #this is every other line of code in this file (excluding library
                 customtkinter.set_appearance_mode("dark")
 
         def updatekeys(): #function to update account information in the file
+            global TWITTER_ACCESS_KEY
+            global TWITTER_ACCESS_SECRET
+            global TWITTER_CONSUMER_KEY
+            global TWITTER_CONSUMER_SECRET
+            global TIKTOK_EMAIL
+            global TIKTOK_PASSWORD
+            global INSTAGRAM_EMAIL
+            global INSTAGRAM_PASSWORD
+
             TWITTER_ACCESS_KEY = textbox_TWITTER_ACCESS_KEY.get() #assigns the information in the textbox to a corresponding variable
             TWITTER_ACCESS_SECRET = textbox_TWITTER_ACCESS_SECRET.get() #same for twitter access secret
             TWITTER_CONSUMER_KEY = textbox_TWITTER_CONSUMER_KEY.get() #same for twitter consumer key

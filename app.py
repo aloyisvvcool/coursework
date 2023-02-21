@@ -173,6 +173,7 @@ def post(): #function to check if the set time has passed, and then post on vari
                 '''
                 Start of Jonathan's Code
                 '''
+                uploadtime = str(upload_time[6:10] + '-' + upload_time[3:5] + '-' + upload_time[0:3] + 'T' + upload_time[11:13] + ':'+ upload_time[14:] + ':00Z')
                 def create_service(client_secret_file, api_name, api_version, *scopes, prefix=''): #function to create a service
                     CLIENT_SECRET_FILE = client_secret_file #assign the client secret file to a variable
                     API_SERVICE_NAME = api_name #assign the api name to a variable
@@ -225,7 +226,7 @@ def post(): #function to check if the set time has passed, and then post on vari
                 service = create_service(client_file, API_NAME, API_VERSION, SCOPES)
 
                 #print(video_categories())
-                upload_time = (datetime.datetime.now() + datetime.timedelta(days=10)).isoformat() + '.000Z'         #Upload date
+                upload_time_ = uploadtime                                                                           #Upload date
                 request_body = {
                     'snippet': {
                         'title': video_title,                                                                   #Insert title of video
@@ -235,7 +236,7 @@ def post(): #function to check if the set time has passed, and then post on vari
                     },
                     'status': {
                         'privacyStatus': 'private',                                                                 #Status privacy
-                        'publishAt': upload_time,                                                                 #Post the video
+                        'publishAt': uploadtime,                                                                 #Post the video
                         'selfDeclaredMadeForKids': False                                                            #Kids?
                     },
                     'notifySubscribers': False                                                                      #Will the video notify subscibers
@@ -565,6 +566,7 @@ def go_post(): #this is every other line of code in this file (excluding library
                     '''
                     Start of Jonathan's Code
                     '''
+                    uploadtime = str(upload_time[6:10] + '-' + upload_time[3:5] + '-' + upload_time[0:3] + 'T' + upload_time[11:13] + ':'+ upload_time[14:] + ':00Z')
                     def create_service(client_secret_file, api_name, api_version, *scopes, prefix=''): #function to create a service for the youtube api
                         CLIENT_SECRET_FILE = client_secret_file #assign the client secret file to a variable
                         API_SERVICE_NAME = api_name #assign the api name to a variable
@@ -617,7 +619,7 @@ def go_post(): #this is every other line of code in this file (excluding library
                     service = create_service(client_file, API_NAME, API_VERSION, SCOPES)                                #Create service
 
                     #print(video_categories())
-                    upload_time = (datetime.datetime.now() + datetime.timedelta(days=10)).isoformat() + '.000Z'         #Upload date
+                    upload_time_ = uploadtime                                                                            #Upload date
                     request_body = {
                         'snippet': {
                             'title': video_title,                                                                   #Insert title of video
@@ -627,7 +629,7 @@ def go_post(): #this is every other line of code in this file (excluding library
                         },
                         'status': {
                             'privacyStatus': 'private',                                                                 #Status privacy
-                            'publishAt': upload_time,                                                                 #Post the video
+                            'publishAt': upload_time_,                                                                 #Post the video
                             'selfDeclaredMadeForKids': False                                                            #Kids?
                         },
                         'notifySubscribers': False                                                                      #Will the video notify subscibers

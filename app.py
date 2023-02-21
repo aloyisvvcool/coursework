@@ -404,7 +404,7 @@ def go_settings():
         global INSTAGRAM_EMAIL
         global INSTAGRAM_PASSWORD
 
-        TWITTER_ACCESS_KEY = textbox_TWITTER_ACCESS_KEY.get()
+        TWITTER_ACCESS_KEY = textbox_TWITTER_ACCESS_KEY.get() #assigns the information in the textbox to a corresponding variable
         TWITTER_ACCESS_SECRET = textbox_TWITTER_ACCESS_SECRET.get()
         TWITTER_CONSUMER_KEY = textbox_TWITTER_CONSUMER_KEY.get()
         TWITTER_CONSUMER_SECRET = textbox_TWITTER_ACCESS_SECRET.get()

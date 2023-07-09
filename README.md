@@ -11,7 +11,8 @@ By: Aloysius (S4-01), Shrinithi (S4-01), Jonathan (S4-07)
 
 ## Simplified Video
 
-Uploading comp coursework.mp4…
+Watch the video explaining and demonstrating the app:
+https://drive.google.com/file/d/1-esT-FjBNRpx5EqgjPxMH3ZW0J-LoscU/view?usp=sharing
 
 ## Prerequisites
 

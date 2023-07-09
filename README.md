@@ -9,6 +9,10 @@ By: Aloysius (S4-01), Shrinithi (S4-01), Jonathan (S4-07)
 
 ###### Sociable is a Python program that allows you to create and schedule social media posts on Twitter, TikTok, Instagram, and YouTube - currently streamlined for MacOS only
 
+## Simplified Video
+
+Uploading comp coursework.mp4…
+
 ## Prerequisites
 
 #### This program requires [Microsoft Edge](https://www.microsoft.com/en-us/edge/download?form=MA13FJ) to be installed at /Applications/ on your MacOS system
